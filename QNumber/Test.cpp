@@ -14,7 +14,6 @@ int main()
 	q.scanQInt(b, 10);
 	q.printQInt(16);
 
-
 	q.scanQInt(c, 2);
 	q.printQInt(10);
 
