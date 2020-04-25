@@ -235,7 +235,13 @@ QInt& QInt::operator=(const QInt& other)
 
 QInt QInt::operator&(const QInt& other)
 {
-	return QInt();
+	return QInt(); 
+	// em nho chu y minh dang o branch nao nha..ne cai master nay ra nha em
+	//do em chua cap nhat nen hoi khac anh xiu
+	//gio anh test commit ne..mai mot em cu lam tuong tu nhu vay
+	//cach 1 em vao day
+	//cach 2 em click phai vao file thay doi co dau tick do a em..neu co nhieu file thay doi em
+	//tick cai nao cung duoc
 }
 
 QInt QInt::operator|(const QInt& other)
