@@ -96,7 +96,90 @@ string IntegerStringUtils::convertHexToBin(string srcHex)
 
 string IntegerStringUtils::convertBinToHex(string src)
 {
-	return string();
+	string result;
+	string block4Bits;
+
+	while ((src.size() % 4) != 0)
+	{
+		src = '0' + src;
+	}
+
+	for (int i = 0; i < src.size(); i++)
+	{
+		block4Bits += src[i];
+
+		if ((i + 1) % 4 == 0)
+		{
+			if (block4Bits == "0000")
+			{
+				result += '0';
+			}
+			else if (block4Bits == "0001")
+			{
+				result += '1';
+			}
+			else if (block4Bits == "0010")
+			{
+				result += '2';
+			}
+			else if (block4Bits == "0011")
+			{
+				result += '3';
+			}
+			else if (block4Bits == "0100")
+			{
+				result += '4';
+			}
+			else if (block4Bits == "0101")
+			{
+				result += '5';
+			}
+			else if (block4Bits == "0110")
+			{
+				result += '6';
+			}
+			else if (block4Bits == "0111")
+			{
+				result += '7';
+			}
+			else if (block4Bits == "1000")
+			{
+				result += '8';
+			}
+			else if (block4Bits == "1001")
+			{
+				result += '9';
+			}
+			else if (block4Bits == "1010")
+			{
+				result += 'A';
+			}
+			else if (block4Bits == "1011")
+			{
+				result += 'B';
+			}
+			else if (block4Bits == "1100")
+			{
+				result += 'C';
+			}
+			else if (block4Bits == "1101")
+			{
+				result += 'D';
+			}
+			else if (block4Bits == "1110")
+			{
+				result += 'E';
+			}
+			else if (block4Bits == "1111")
+			{
+				result += 'F';
+			}
+
+			block4Bits.clear();
+		}
+	}
+
+	return result;
 }
 
 

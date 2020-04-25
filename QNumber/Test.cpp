@@ -12,7 +12,7 @@ int main()
 
 	QInt q;
 	q.scanQInt(b, 10);
-	q.printQInt(2);
+	q.printQInt(16);
 
 
 	q.scanQInt(c, 2);

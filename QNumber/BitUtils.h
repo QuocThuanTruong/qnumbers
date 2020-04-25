@@ -3,8 +3,9 @@
 
 #define BIT_IN_BLOCK 32
 #define TOTAL_BLOCK 4
-#define BIT_IN_QINT 128
-#define SIZE_QINT 16
+#define BIT_IN_QNUMS 128
+
+
 
 class BitUtils
 {
