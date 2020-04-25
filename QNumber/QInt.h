@@ -4,6 +4,9 @@
 #include "BitUtils.h"
 #include "IntegerStringUtils.h"
 
+#define BIT_IN_QINT 128
+#define SIZE_QINT 16
+
 typedef IntegerStringUtils SUtils;
 typedef BitUtils BUtils;
 

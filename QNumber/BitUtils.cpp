@@ -2,7 +2,7 @@
 
 void BitUtils::setBit(int data[], int i, bool value)
 {
-	if (i < 0 || i > BIT_IN_QINT - 1)
+	if (i < 0 || i > BIT_IN_QNUMS - 1)
 	{
 		throw "Bit out of bounds";
 	}
@@ -22,7 +22,7 @@ void BitUtils::setBit(int data[], int i, bool value)
 
 bool BitUtils::getBit(int data[], int i)
 {
-	if (i < 0 || i > BIT_IN_QINT - 1)
+	if (i < 0 || i > BIT_IN_QNUMS - 1)
 	{
 		throw "Bit out of bounds";
 	}
