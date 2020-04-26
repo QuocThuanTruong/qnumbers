@@ -24,7 +24,7 @@ string IntegerStringUtils::convertDecToBin(string srcDec)
 
 	if (isNegative(srcDec))								// Nếu chuỗi ban đầu âm
 	{
-		QInt temp(result, 10);							// Chuyển chuỗi kết quả sang QInt	
+		QInt temp(result, 2);							// Chuyển chuỗi kết quả sang QInt	
 		temp = QInt::convertToTwoComplement(temp);		// Chuyển QInt sang dạng bù 2
 		result = QInt::convertQIntToBin(temp);			// Chuyển QInt bù 2 sang chuỗi nhị phân
 	}

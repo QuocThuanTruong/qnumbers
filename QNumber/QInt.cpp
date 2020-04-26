@@ -93,10 +93,12 @@ string QInt::convertQIntToDec(QInt src)
 {
 	string srcBin;
 	string result = "0";
-
+	bool flag=0;
+	
 	if (src.isNegative())
 	{
 		src = QInt::inverseTwoComplement(src);
+		flag=1;
 	}
 
 	for (int i = 0; i < BIT_IN_QINT; i++)
@@ -107,6 +109,11 @@ string QInt::convertQIntToDec(QInt src)
 		}
 	}
 
+	if (flag==1)
+	{
+		result = "-" + result;
+	}
+	
 	return result;
 }
 
@@ -170,12 +177,34 @@ QInt QInt::inverseTwoComplement(QInt src)
 
 QInt QInt::operator+(const QInt& other)
 {
-	return QInt();
+	QInt result;
+	QInt num=other;
+	int carry=0;
+	int temp=0;
+
+	for (int i = 0; i < BIT_IN_QINT; i++)
+	{
+		temp = BitUtils::getBit(this->data, i) + BitUtils::getBit(num.data, i) + carry;
+		if ( temp % 2 == 1)
+		{
+			BitUtils::setBit(result.data,i);
+		}
+		carry=temp/2;
+	}
+
+	return result;
 }
 
 QInt QInt::operator-(const QInt& other)
 {
-	return QInt();
+	QInt result;
+	QInt beminused;
+
+	beminused = this->convertToTwoComplement(other);
+
+	result = (*this) + beminused;
+
+	return result;
 }
 
 QInt QInt::operator*(const QInt& other)
@@ -190,32 +219,49 @@ QInt QInt::operator/(const QInt& other)
 
 bool QInt::operator>(const QInt& other)
 {
-	return false;
+	if (((*this) - other).isNegative())
+	{
+		return false;
+	}
+
+	return true;
 }
 
 bool QInt::operator<(const QInt& other)
 {
+	if (((*this) - other).isNegative())
+	{
+		return true;
+	}
+	
 	return false;
 }
 
 bool QInt::operator==(const QInt& other)
 {
-	return false;
+	for( int i = 0; i < TOTAL_BLOCK; i++)
+	{
+		if (this->data[i] != other.data[i])
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 bool QInt::operator!=(const QInt& other)
 {
-	return false;
+	return ((*this) == other) ? false : true;
 }
 
 bool QInt::operator>=(const QInt& other)
 {
-	return false;
+	return ((*this) < other) ? false : true;
 }
 
 bool QInt::operator<=(const QInt& other)
 {
-	return false;
+	return ((*this) > other) ? false : true;
 }
 
 QInt& QInt::operator=(const QInt& other)
@@ -250,7 +296,14 @@ QInt QInt::operator^(const QInt& other)
 
 QInt QInt::operator~() const
 {
-	return QInt();
+	QInt result;
+	
+	for ( int i = 0; i < TOTAL_BLOCK; i++)
+	{
+		result.data[i] = ~data[i];
+	}
+
+	return result;
 }
 
 QInt QInt::operator>>(const int& offset)
