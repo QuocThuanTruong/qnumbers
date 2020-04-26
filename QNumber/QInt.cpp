@@ -8,7 +8,7 @@
 QInt::QInt()
 {
 	for (int i = 0; i < TOTAL_BLOCK; i++)		//Khởi tạo mỗi block bằng 0
-	{
+	{ 
 		this->data[i] = 0;
 	}
 }
@@ -235,15 +235,15 @@ QInt& QInt::operator=(const QInt& other)
 
 
 /**
- *	Toán tử AND - &
- *	@param	 const QInt&	số QInt truyền vào để thực hiện phép &	
- *	@return	 QInt			abcxyz
- */
+ *	operator & - Toán tử AND
+ *	@param	 const QInt&		Số QInt truyền vào để thực hiện phép &	
+ *	@return	 QInt				Kết quả sau khi thực hiện phép &
+ */ 
 QInt QInt::operator&(const QInt& other)
 {
 	QInt result;
 
-	for (int i = 0; i < TOTAL_BLOCK; i++)
+	for (int i = 0; i < TOTAL_BLOCK; i++)					// Duyệt và & bit các block tương ứng
 	{
 		result.data[i] = this->data[i] & other.data[i];
 	}
@@ -254,8 +254,8 @@ QInt QInt::operator&(const QInt& other)
 
 /**
  *	operator| - Toán tử OR
- *	@param	 const QInt&	số QInt truyền vào để thực hiện phép |
- *	@return	 QInt			kết quả sau khi thực hiện phép |
+ *	@param	 const QInt&		Số QInt truyền vào để thực hiện phép |
+ *	@return	 QInt				Kết quả sau khi thực hiện phép |
  */
 QInt QInt::operator|(const QInt& other)
 {
@@ -271,15 +271,15 @@ QInt QInt::operator|(const QInt& other)
 
 
 /**
- *	Toán tử XOR - ^
- *	@param	 const QInt& - số QInt truyền vào để thực hiện phép ^
- *	@return	 QInt
+ *	operater - Toán tử XOR 
+ *	@param	 const QInt&		Số QInt truyền vào để thực hiện phép ^
+ *	@return	 QInt				Lưu lại kết quả sau khi thực hiện phép ^
  */
 QInt QInt::operator^(const QInt& other)
 {
 	QInt result;
 
-	for (int i = 0; i < TOTAL_BLOCK; i++)
+	for (int i = 0; i < TOTAL_BLOCK; i++)							// Duyệt và ^ từng block tương ứng
 	{
 		result.data[i] = this->data[i] ^ other.data[i];
 	}
@@ -289,15 +289,15 @@ QInt QInt::operator^(const QInt& other)
 
 
 /**
- *	Toán tử NOT - ~
+ *	operator ~ - Toán tử NOT 
  *	@param	 none 
- *	@return	 QInt
+ *	@return	 QInt			Kết quả sau khi thực hiện phép ~
  */
 QInt QInt::operator~() const
 {
 	QInt result;
 
-	for (int i = 0; i < TOTAL_BLOCK; i++)
+	for (int i = 0; i < TOTAL_BLOCK; i++)							// Duyệt và ~ bit các block tương ứng
 	{
 		result.data[i] = ~(this->data[i]);
 	}
@@ -307,18 +307,18 @@ QInt QInt::operator~() const
 
 
 /**
- *	Toán tử dịch phải - >>
- *	@param	 const int& - số lượng bit dịch
- *	@return	 QInt
+ *	operator>> - Toán tử dịch phải
+ *	@param	 const int&			Số lượng bit dịch
+ *	@return	 QInt				Kết quả sau khi thực hiện phép dịch
  */
 QInt QInt::operator>>(const int& offset)
 {
-	QInt result;
+	QInt result;													// Tạo 1 dãy bit 0
 
-	for (int i = offset; i < BIT_IN_QINT; i++)
+	for (int i = offset; i < BIT_IN_QINT; i++)						// Duyệt từ vị trí offset đến hết dãy bit
 	{
-		bool temp = BUtils::getBit(this->data, i);
-		BUtils::setBit(result.data, i - offset, temp); 
+		bool temp = BUtils::getBit(this->data, i);					// Lưu lại bit thứ i của dãy cần dịch
+		BUtils::setBit(result.data, i - offset, temp);				// Set bit vừa lưu vào bit thứ i - offset của dãy kết quả
 	}
 
 	return result;
@@ -327,17 +327,17 @@ QInt QInt::operator>>(const int& offset)
 
 /**
  *	operator<< - Toán tử dịch trái
- *	@param	 const int&		số lượng bit dịch
- *	@return	 QInt			abxyz
+ *	@param	 const int&			Số lượng bit dịch
+ *	@return	 QInt				Lưu kết quả sau khi thực hiện phép dịch trái
  */
 QInt QInt::operator<<(const int& offset)
 {
-	QInt result;
+	QInt result;													// Tạo 1 dãy bit 0
 
-	for (int i = offset; i < BIT_IN_QINT; i++)
+	for (int i = offset; i < BIT_IN_QINT; i++)						// Duyệt từ vị trí offset đến hết dãy
 	{
-		bool temp = BUtils::getBit(this->data, i - offset);
-		BUtils::setBit(result.data, i, temp);
+		bool temp = BUtils::getBit(this->data, i - offset);			// Lưu bit thứ i - offset của dãy cần dịch trái
+		BUtils::setBit(result.data, i, temp);						// Set bit vừa lưu vào bit thứ i của dãy bit kết quả
 	}
 
 	return result;
@@ -347,30 +347,30 @@ QInt QInt::operator<<(const int& offset)
 /**
  *	Hàm rol - Thực hiện việc xoay trái dãy bit 
  *	@param	 none
- *	@return	 QInt	abcxyz
+ *	@return	 QInt		Lưu kết quả sau khi thực hiện xoay trái dãy bit
  */
 QInt& QInt::rol()
 {
-	bool temp = BUtils::getBit(this->data, BIT_IN_QINT - 1);
+	bool temp = BUtils::getBit(this->data, BIT_IN_QINT - 1);		// Lưu lại bit trái nhất
 
-	*this = *this << 1;
-	BUtils::setBit(this->data, 0, temp);
+	*this = *this << 1;												// Dịch trái dãy bit sang 1 bit
+	BUtils::setBit(this->data, 0, temp);							// Set bit trái nhất cho bit thứ 0 của dãy
 
 	return *this;
 }
 
 
 /**
- *	Toán tử xoay phải
+ *	Hàm ror - Thực hiện việc xoay phải dãy bit
  *	@param	 none 
- *	@return	 QInt
+ *	@return	 QInt		Kết quả sau khi thực hiện phép xoay phải
  */
 QInt& QInt::ror()
 {
-	bool temp = BUtils::getBit(this->data, 0);
+	bool temp = BUtils::getBit(this->data, 0);						// Lưu lại bit phải nhất
 
-	*this = *this >> 1;
-	BUtils::setBit(this->data, BIT_IN_QINT - 1, temp);
+	*this = *this >> 1;												// Dịch phải dãy bit sang 1 bit
+	BUtils::setBit(this->data, BIT_IN_QINT - 1, temp);				// Set bit phải nhất cho bit trái nhất
 
 	return *this;
 }
