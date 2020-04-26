@@ -197,7 +197,7 @@ string IntegerStringUtils::divideDecStringByTwo(const string& divisor)
 			result += (curDivisor / 2) + '0';		// Ghi phần nguyên phép chia vào kết quả
 			curDivisor = curDivisor % 2;			// Lấy phần dư của phép chia trên để tiếp tục chia nếu divisor còn chữ số 
 		}
-		else if (i != 0) {							// Nếu số chia hiện tại không thể chia cho 2 và không nằm ở vị trí đầu thì ta viết 0 vào kết quả
+		else if (i != 0) {							// Nếu số chia hiện tại không thể chia cho 2 và KHÔNG nằm ở vị trí đầu thì ta viết 0 vào kết quả
 			result += '0';							// (vì 0 nằm ở vị trí đầu thì không có ý nghĩa VD: 0911 = 911)
 		}
 	}
