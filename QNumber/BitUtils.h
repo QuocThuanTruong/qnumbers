@@ -5,8 +5,6 @@
 #define TOTAL_BLOCK 4
 #define BIT_IN_QNUMS 128
 
-
-
 class BitUtils
 {
 public:
