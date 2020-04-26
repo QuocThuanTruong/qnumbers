@@ -91,20 +91,25 @@ string QInt::convertQIntToBin(QInt src)
 
 string QInt::convertQIntToDec(QInt src)
 {
-	string srcBin;
+	QInt temp = src;
 	string result = "0";
 
 	if (src.isNegative())
 	{
-		src = QInt::inverseTwoComplement(src);
+		temp = QInt::inverseTwoComplement(temp);
 	}
 
 	for (int i = 0; i < BIT_IN_QINT; i++)
 	{
-		if (BUtils::getBit(src.data, i) == 1)
+		if (BUtils::getBit(temp.data, i) == 1)
 		{
 			result = SUtils::addTwoPositiveIntegerString(result, SUtils::powerOfTwo(i));
 		}
+	}
+
+	if (src.isNegative())
+	{
+		result = '-' + result;
 	}
 
 	return result;
@@ -170,12 +175,27 @@ QInt QInt::inverseTwoComplement(QInt src)
 
 QInt QInt::operator+(const QInt& other)
 {
-	return QInt();
+	QInt result;
+	QInt num = other;
+	int carry = 0;
+	int temp = 0;
+
+	for (int i = 0; i < BIT_IN_QINT; i++)
+	{
+		temp = BitUtils::getBit(this->data, i) + BitUtils::getBit(num.data, i) + carry;
+		if ( temp % 2 == 1)
+		{
+			BitUtils::setBit(result.data, i);
+		}
+		carry = temp/2;
+	}
+
+	return result;
 }
 
 QInt QInt::operator-(const QInt& other)
 {
-	return QInt();
+	return *this + QInt::convertToTwoComplement(other);
 }
 
 QInt QInt::operator*(const QInt& other)
@@ -190,32 +210,49 @@ QInt QInt::operator/(const QInt& other)
 
 bool QInt::operator>(const QInt& other)
 {
-	return false;
+	if (((*this) - other).isNegative())
+	{
+		return false;
+	}
+
+	return true;
 }
 
 bool QInt::operator<(const QInt& other)
 {
+	if (((*this) - other).isNegative())
+	{
+		return true;
+	}
+	
 	return false;
 }
 
 bool QInt::operator==(const QInt& other)
 {
-	return false;
+	for( int i = 0; i < TOTAL_BLOCK; i++)
+	{
+		if (this->data[i] != other.data[i])
+		{
+			return false;
+		}
+	}
+	return true;
 }
 
 bool QInt::operator!=(const QInt& other)
 {
-	return false;
+	return ((*this) == other) ? false : true;
 }
 
 bool QInt::operator>=(const QInt& other)
 {
-	return false;
+	return ((*this) < other) ? false : true;
 }
 
 bool QInt::operator<=(const QInt& other)
 {
-	return false;
+	return ((*this) > other) ? false : true;
 }
 
 QInt& QInt::operator=(const QInt& other)
