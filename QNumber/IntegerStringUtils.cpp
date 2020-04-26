@@ -27,7 +27,7 @@ string IntegerStringUtils::convertDecToBin(string srcDec)
 		QInt temp(result, 10);							// Chuyển chuỗi kết quả sang QInt	
 		temp = QInt::convertToTwoComplement(temp);		// Chuyển QInt sang dạng bù 2
 		result = QInt::convertQIntToBin(temp);			// Chuyển QInt bù 2 sang chuỗi nhị phân
-	}
+	}													
 
 	return result;
 }
