@@ -203,7 +203,7 @@ QInt QInt::operator+(const QInt& other)
  */
 QInt QInt::operator-(const QInt& other)
 {
-	return (*this) + QInt::convertToTwoComplement(other);						
+	return *this + QInt::convertToTwoComplement(other);						
 }
 
 QInt QInt::operator*(const QInt& other)
