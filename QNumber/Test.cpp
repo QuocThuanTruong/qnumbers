@@ -1,5 +1,6 @@
 #include "IntegerStringUtils.h"
 #include "BitUtils.h"
+#include "QFloat.h"
 #include "QInt.h"
 
 int main()
@@ -48,6 +49,10 @@ int main()
 	d.ror();
 	cout << "ror b\n";
 	d.printQInt(2);
+
+	QFloat k;
+
+	cout << k.convertFractionPartToBin("3017578125") << endl; //0.3017578125
 
 	return 0;
 }

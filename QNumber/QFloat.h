@@ -32,6 +32,8 @@ public:
 
 	static QFloat convertDecToQFloat(const string& src);
 	static QFloat convertBinToQFloat(const string& src);
+
+	string convertFractionPartToBin(string srcFrac);
 };
 
 #endif // !_QFLOAT_H
