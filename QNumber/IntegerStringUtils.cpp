@@ -1,5 +1,6 @@
 ﻿#include "IntegerStringUtils.h"
 #include "QInt.h"
+#include "QFloat.h"
 
 /**
  *	Ham convertDecToBin - Hàm chuyển dổi chuỗi thập phân sang chuỗi nhị phân
@@ -176,6 +177,45 @@ string IntegerStringUtils::convertBinToHex(string src)
 			}
 
 			block4Bits.clear();
+		}
+	}
+
+	return result;
+}
+
+string IntegerStringUtils::convertFractionPartToBin(string srcFrac)
+{
+	int count = 0;
+	string result = "";
+
+	while (count < BIT_IN_SIGNIFICAND)
+	{
+		bool equalZero = true;
+		string newFrac = SUtils::mulOfPositiveIntegerAndTwo(srcFrac);
+
+		if (newFrac.size() > srcFrac.size())
+		{
+			result += '1';
+			srcFrac = newFrac.substr(1, srcFrac.size());
+		}
+		else
+		{
+			result += '0';
+			srcFrac = newFrac;
+		}
+
+		for (int i = 0; i < srcFrac.size(); i++)
+		{
+			if (srcFrac[i] != '0')
+			{
+				equalZero = false;
+				break;
+			}
+		}
+
+		if (equalZero)
+		{
+			break;
 		}
 	}
 

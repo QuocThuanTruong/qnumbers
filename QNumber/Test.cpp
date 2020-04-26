@@ -16,7 +16,7 @@ int main()
 	QInt c;
 	c.scanQInt(a, 10);
 	cout << "a: ";
-	c.printQInt(2);
+	c.printQInt(16);
 
 	QInt d;
 	d.scanQInt(b, 10);
@@ -36,11 +36,11 @@ int main()
 	cout << "~a\n";
 	(~c).printQInt(2);
 	
-	cout << "a >> 5\n";
-	(c >> 5).printQInt(2);
+	cout << "a >> 2\n";
+	(c >> 2).printQInt(10);
 
 	cout << "b << 4\n";
-	(d << 4).printQInt(2);
+	(d << 2).printQInt(10);
 
 	c.rol();
 	cout << "rol a\n";
@@ -50,9 +50,8 @@ int main()
 	cout << "ror b\n";
 	d.printQInt(2);
 
-	QFloat k;
-
-	cout << k.convertFractionPartToBin("3017578125") << endl; //0.3017578125
+	
+	cout << IntegerStringUtils::convertFractionPartToBin("3017578125") << endl; //0.3017578125
 
 	return 0;
 }
