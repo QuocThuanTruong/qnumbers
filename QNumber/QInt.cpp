@@ -91,20 +91,25 @@ string QInt::convertQIntToBin(QInt src)
 
 string QInt::convertQIntToDec(QInt src)
 {
-	string srcBin;
+	QInt temp = src;
 	string result = "0";
 
 	if (src.isNegative())
 	{
-		src = QInt::inverseTwoComplement(src);
+		temp = QInt::inverseTwoComplement(temp);
 	}
 
 	for (int i = 0; i < BIT_IN_QINT; i++)
 	{
-		if (BUtils::getBit(src.data, i) == 1)
+		if (BUtils::getBit(temp.data, i) == 1)
 		{
 			result = SUtils::addTwoPositiveIntegerString(result, SUtils::powerOfTwo(i));
 		}
+	}
+
+	if (src.isNegative())
+	{
+		result = '-' + result;
 	}
 
 	return result;
