@@ -14,6 +14,8 @@ public:
 	static string convertHexToBin(string src);
 	static string convertBinToHex(string src);
 
+	static string convertFractionPartToBin(string srcFrac);
+
 	static string divideDecStringByTwo(const string&);
 	static bool isNegative(const string&);
 	static string addTwoPositiveIntegerString(string srcA, string srcB);
