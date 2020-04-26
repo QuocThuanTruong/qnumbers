@@ -174,8 +174,8 @@ QInt QInt::inverseTwoComplement(QInt src)
 }
 /**
  *	operator+ - Toán tử cộng 2 số QInt
- *	@param	 const QInt&              //Số hạng
- *	@return	 QInt                     //Kết quả sau khi cộng
+ *	@param	 const QInt&     Số hạng
+ *	@return	 QInt            Kết quả sau khi cộng
  */
 QInt QInt::operator+(const QInt& other)
 {
@@ -184,7 +184,7 @@ QInt QInt::operator+(const QInt& other)
 	int carry = 0;
 	int temp = 0;
 
-	for (int i = 0; i < BIT_IN_QINT; i++)             // cộng lần lượt các bit và lưu biến nhớ
+	for (int i = 0; i < BIT_IN_QINT; i++)					// Cộng lần lượt các bit và lưu biến nhớ
 	{
 		temp = BitUtils::getBit(this->data, i) + BitUtils::getBit(num.data, i) + carry;
 		if ( temp % 2 == 1)
@@ -198,12 +198,12 @@ QInt QInt::operator+(const QInt& other)
 }
 /**
  *	operator- - Toán tử trừ 2 số QInt
- *	@param	 const QInt&              
- *	@return	 QInt                     
+ *	@param	 const QInt&    Số bị trừ       
+ *	@return	 QInt			Kết quả sau khi trừ          
  */
 QInt QInt::operator-(const QInt& other)
 {
-	return *this + QInt::convertToTwoComplement(other);
+	return *this + QInt::convertToTwoComplement(other);			// Cộng cho bù 2
 }
 
 QInt QInt::operator*(const QInt& other)
@@ -216,13 +216,13 @@ QInt QInt::operator/(const QInt& other)
 	return QInt();
 }
 /**
- *	operator>    -    Toán tử so sánh lớn hơn
- *	@param	 const QInt&              //Số cần so sánh
- *	@return	 bool                    //Kết quả phép so sánh
+ *	operator> - Toán tử so sánh lớn hơn
+ *	@param	 const QInt&      Số cần so sánh
+ *	@return	 bool            Kết quả phép so sánh
  */
 bool QInt::operator>(const QInt& other)
 {
-	if (((*this) - other).isNegative())  //trừ nhau ra dương thì return true
+	if (((*this) - other).isNegative())							//Trừ nhau ra dương thì return true
 	{
 		return false;
 	}
@@ -230,13 +230,13 @@ bool QInt::operator>(const QInt& other)
 	return true;
 }
 /**
- *	operator<    -     Toán tử so sánh bé hơn
- *	@param	 const QInt&              //Số cần so sánh
- *	@return	 bool                    //Kết quả phép so sánh
+ *	operator< - Toán tử so sánh bé hơn
+ *	@param	 const QInt&      Số cần so sánh
+ *	@return	 bool             Kết quả phép so sánh
  */
 bool QInt::operator<(const QInt& other)
 {
-	if (((*this) - other).isNegative())		//trừ nhau ra âm thì return true
+	if (((*this) - other).isNegative())							//Trừ nhau ra âm thì return true
 	{
 		return true;
 	}
@@ -244,13 +244,13 @@ bool QInt::operator<(const QInt& other)
 	return false;
 } 
 /**
- *	operator==    -    Toán tử so sánh bằng
- *	@param	 const QInt&              //Số cần so sánh
- *	@return	 bool                    //Kết quả phép so sánh
+ *	operator== - Toán tử so sánh bằng
+ *	@param	 const QInt&      Số cần so sánh
+ *	@return	 bool             Kết quả phép so sánh
  */
 bool QInt::operator==(const QInt& other)
 {
-	for( int i = 0; i < TOTAL_BLOCK; i++) // So sánh lần lượt các block
+	for( int i = 0; i < TOTAL_BLOCK; i++)						// So sánh lần lượt các block
 	{
 		if (this->data[i] != other.data[i])
 		{
@@ -260,27 +260,27 @@ bool QInt::operator==(const QInt& other)
 	return true;
 }
 /**
- *	operator!=      -    Toán tử so sánh khác
- *	@param	 const QInt&              //Số cần so sánh
- *	@return	 bool                    //Kết quả phép so sánh
+ *	operator!= - Toán tử so sánh khác
+ *	@param	 const QInt&		Số cần so sánh
+ *	@return	 bool               Kết quả phép so sánh
  */
 bool QInt::operator!=(const QInt& other)
 {
 	return ((*this) == other) ? false : true;
 }
 /**
- *	operator>=    -    Toán tử so sánh lớn hơn hoặc bằng
- *	@param	 const QInt&              //Số cần so sánh
- *	@return	 bool                    //Kết quả phép so sánh
+ *	operator>=  - Toán tử so sánh lớn hơn hoặc bằng
+ *	@param	 const QInt&         Số cần so sánh
+ *	@return	 bool                Kết quả phép so sánh
  */
 bool QInt::operator>=(const QInt& other)
 {
 	return ((*this) < other) ? false : true;
 }
 /**
- *	operator<=      -   Toán tử so sánh nhỏ hơn hoặc bằng
- *	@param	 const QInt&              //Số cần so sánh
- *	@return	 bool                    //Kết quả phép so sánh
+ *	operator<=  - Toán tử so sánh nhỏ hơn hoặc bằng
+ *	@param	 const QInt&       Số cần so sánh
+ *	@return	 bool              Kết quả phép so sánh
  */
 bool QInt::operator<=(const QInt& other)
 {
@@ -312,7 +312,7 @@ QInt QInt::operator&(const QInt& other)
 {
 	QInt result;
 
-	for (int i = 0; i < TOTAL_BLOCK; i++)					// Duyệt và & bit các block tương ứng
+	for (int i = 0; i < TOTAL_BLOCK; i++)							// Duyệt và & bit các block tương ứng
 	{
 		result.data[i] = this->data[i] & other.data[i];
 	}
