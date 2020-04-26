@@ -198,19 +198,12 @@ QInt QInt::operator+(const QInt& other)
 }
 /**
  *	operator- - Toán tử trừ 2 số QInt
- *	@param	 const QInt&              //Số trừ
- *	@return	 QInt                     //Kết quả sau khi trừ
+ *	@param	 const QInt&              
+ *	@return	 QInt                     
  */
 QInt QInt::operator-(const QInt& other)
 {
-	QInt result;
-	QInt beminused;
-
-	beminused = this->convertToTwoComplement(other);   //Số trừ sẽ chuyển thành số bù 2
-
-	result = (*this) + beminused;						//Cộng lại sau khi chuyển
-
-	return result;
+	return (*this) + QInt::convertToTwoComplement(other);						
 }
 
 QInt QInt::operator*(const QInt& other)
