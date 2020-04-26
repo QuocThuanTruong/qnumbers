@@ -195,14 +195,7 @@ QInt QInt::operator+(const QInt& other)
 
 QInt QInt::operator-(const QInt& other)
 {
-	QInt result;
-	QInt beminused;
-
-	beminused = this->convertToTwoComplement(other);
-
-	result = (*this) + beminused;
-
-	return result;
+	return *this + QInt::convertToTwoComplement(other);
 }
 
 QInt QInt::operator*(const QInt& other)
