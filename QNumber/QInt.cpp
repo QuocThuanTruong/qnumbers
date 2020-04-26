@@ -296,14 +296,7 @@ QInt QInt::operator^(const QInt& other)
 
 QInt QInt::operator~() const
 {
-	QInt result;
-	
-	for ( int i = 0; i < TOTAL_BLOCK; i++)
-	{
-		result.data[i] = ~data[i];
-	}
-
-	return result;
+	return QInt();
 }
 
 QInt QInt::operator>>(const int& offset)
