@@ -7,18 +7,23 @@ int main()
 {
 	//TO DO
 	//Test here
-	string a = "5579";
+	string a = "-50";
 	string b = "240";
 
 	cout << "a: " << a << endl;
 	cout << "b: " << b << endl;
 
 	QInt c;
-	c.scanQInt(b, 10);
+	c.scanQInt(a, 10);
 	cout << "b: ";
 	c.printQInt(2);
 	c.printQInt(10);
 	c.printQInt(16);
+
+	QInt d;
+	d.scanQInt(b, 10);
+	
+	(c + d).printQInt(10);
 
 	return 0;
 }
