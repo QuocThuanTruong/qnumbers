@@ -53,6 +53,42 @@ void QFloat::printQFloat(const int base)
 
 QFloat QFloat::convertDecToQFloat(const string& src)
 {
+	QFloat result;
+	int pos0;
+	int pos;
+	string inPartDec;
+	string fracPartDec;
+	string inPartBin;
+	string fracPartBin;
+
+    if (src=="0") return result;
+	else
+	{
+		if (src[0] == '-')
+		{
+			src.erase(0, 1);
+		}
+	}
+
+	pos0 = src.find_first_of('.',0);
+	if (pos0 == string::npos)
+	{
+		src += '.0';
+	}
+
+	pos = src.find_first_of('.', 0);
+	inPartDec = src.substr(0, pos - 1);
+	fracPartDec = src.substr(pos + 1);
+
+	if (inPartDec != "0")
+	{
+		inPartBin = SUtils::convertDecToBin(inPartDec);
+		fracPartBin = SUtils::convertFractionPartToBin(fracPartDec);
+
+
+	}
+
+
 	return QFloat();
 }
 
