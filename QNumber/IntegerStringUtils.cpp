@@ -217,6 +217,8 @@ string IntegerStringUtils::convertFractionPartToBin(string srcFrac)
 		{
 			break;
 		}
+
+		count++;
 	}
 
 	return result;

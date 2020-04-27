@@ -172,6 +172,7 @@ QInt QInt::inverseTwoComplement(QInt src)
 {
 	return ~(src - QInt("1", 10));
 }
+
 /**
  *	operator+ - Toán tử cộng 2 số QInt
  *	@param	 const QInt&     Số hạng
@@ -196,6 +197,7 @@ QInt QInt::operator+(const QInt& other)
 
 	return result;
 }
+
 /**
  *	operator- - Toán tử trừ 2 số QInt
  *	@param	 const QInt&    Số bị trừ       
@@ -215,6 +217,7 @@ QInt QInt::operator/(const QInt& other)
 {
 	return QInt();
 }
+
 /**
  *	operator> - Toán tử so sánh lớn hơn
  *	@param	 const QInt&      Số cần so sánh
@@ -229,6 +232,7 @@ bool QInt::operator>(const QInt& other)
 
 	return true;
 }
+
 /**
  *	operator< - Toán tử so sánh bé hơn
  *	@param	 const QInt&      Số cần so sánh
@@ -243,6 +247,7 @@ bool QInt::operator<(const QInt& other)
 	
 	return false;
 } 
+
 /**
  *	operator== - Toán tử so sánh bằng
  *	@param	 const QInt&      Số cần so sánh
@@ -259,6 +264,7 @@ bool QInt::operator==(const QInt& other)
 	}
 	return true;
 }
+
 /**
  *	operator!= - Toán tử so sánh khác
  *	@param	 const QInt&		Số cần so sánh
@@ -268,6 +274,7 @@ bool QInt::operator!=(const QInt& other)
 {
 	return ((*this) == other) ? false : true;
 }
+
 /**
  *	operator>=  - Toán tử so sánh lớn hơn hoặc bằng
  *	@param	 const QInt&         Số cần so sánh
@@ -277,6 +284,7 @@ bool QInt::operator>=(const QInt& other)
 {
 	return ((*this) < other) ? false : true;
 }
+
 /**
  *	operator<=  - Toán tử so sánh nhỏ hơn hoặc bằng
  *	@param	 const QInt&       Số cần so sánh
@@ -287,6 +295,11 @@ bool QInt::operator<=(const QInt& other)
 	return ((*this) > other) ? false : true;
 }
 
+/**
+ *	operator= - Toán tử gán
+ *	@param	 const QInt&		Số QInt cần gán
+ *	@return	 QInt				Kết quả sau khi thực hiện phép gán
+ */
 QInt& QInt::operator=(const QInt& other)
 {
 	if (other.data == this->data)
@@ -302,9 +315,8 @@ QInt& QInt::operator=(const QInt& other)
 	return *this;
 }
 
-
 /**
- *	operator & - Toán tử AND
+ *	operator& - Toán tử AND
  *	@param	 const QInt&		Số QInt truyền vào để thực hiện phép &	
  *	@return	 QInt				Kết quả sau khi thực hiện phép &
  */ 
@@ -340,7 +352,7 @@ QInt QInt::operator|(const QInt& other)
 
 
 /**
- *	operater - Toán tử XOR 
+ *	operater^ - Toán tử XOR 
  *	@param	 const QInt&		Số QInt truyền vào để thực hiện phép ^
  *	@return	 QInt				Lưu lại kết quả sau khi thực hiện phép ^
  */
@@ -358,7 +370,7 @@ QInt QInt::operator^(const QInt& other)
 
 
 /**
- *	operator ~ - Toán tử NOT 
+ *	operator~ - Toán tử NOT 
  *	@param	 none 
  *	@return	 QInt			Kết quả sau khi thực hiện phép ~
  */
