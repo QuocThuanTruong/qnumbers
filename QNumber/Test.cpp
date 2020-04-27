@@ -24,6 +24,8 @@ int main()
 	d.scanQInt(b, 10);
 	
 	(c + d).printQInt(10);
+	(c / d).printQInt(10);
+	(c * d).printQInt(10);
 
 	return 0;
 }
