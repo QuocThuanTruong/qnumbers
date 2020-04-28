@@ -24,8 +24,8 @@ int main()
 	d.scanQInt(b, 10);
 	
 	(c + d).printQInt(10);
-	(c * d).printQInt(10);
-	(c / d).printQInt(10);
-	
+
+	cout << IntegerStringUtils::convertFractionPartToBin("1") << endl;
+
 	return 0;
 }
