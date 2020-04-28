@@ -54,42 +54,102 @@ void QFloat::printQFloat(const int base)
 QFloat QFloat::convertDecToQFloat(const string& src)
 {
 	QFloat result;
-	int pos0;
-	int pos;
-	string inPartDec;
+	int posOfDot0;
+	int posOfDot1;
+	int exp = 0;
+	string intPartDec;
 	string fracPartDec;
-	string inPartBin;
+	string intPartBin;
 	string fracPartBin;
+	string srcSignificandBin;
+	string srcDec = src;
 
-    if (src=="0") return result;
+	if (srcDec == "0") return result;
 	else
 	{
-		if (src[0] == '-')
+		if (srcDec[0] == '-')
 		{
-			src.erase(0, 1);
+			srcDec.erase(0, 1);
 		}
 	}
 
-	pos0 = src.find_first_of('.',0);
-	if (pos0 == string::npos)
+	posOfDot0 = src.find_first_of('.', 0);
+	if (posOfDot0 == string::npos)
 	{
-		src += '.0';
+		srcDec += ".0";
 	}
 
-	pos = src.find_first_of('.', 0);
-	inPartDec = src.substr(0, pos - 1);
-	fracPartDec = src.substr(pos + 1);
+	posOfDot1 = srcDec.find_first_of('.', 0);
+	intPartDec = srcDec.substr(0, posOfDot1 - 1);
+	fracPartDec = srcDec.substr(posOfDot1 + 1);
 
-	if (inPartDec != "0")
+	if (intPartDec != "0")
 	{
-		inPartBin = SUtils::convertDecToBin(inPartDec);
+		intPartBin = SUtils::convertDecToBin(intPartDec);
 		fracPartBin = SUtils::convertFractionPartToBin(fracPartDec);
 
+		exp = intPartBin.size() - 1;
 
+		if (exp > BIAS)
+		{
+			exp = BIAS - 1;
+		}
+
+		if (exp == 0)
+		{
+			srcSignificandBin = fracPartBin;
+		}
+		else
+		{
+			srcSignificandBin = intPartBin.substr(1, exp) + fracPartBin;
+		}
+
+		exp = exp + BIAS;
+	}
+	else
+	{
+		while (exp < BIAS)
+		{
+			exp++;
+			string newFracDec = SUtils::mulOfPositiveIntegerAndTwo(fracPartDec);
+
+			if (newFracDec.size() > fracPartDec.size())
+			{
+				fracPartDec = newFracDec.substr(1, fracPartDec.size());
+				break;
+			}
+			else
+			{
+				fracPartDec = newFracDec;
+			}
+		}
+		exp = BIAS - exp;
+		srcSignificandBin = SUtils::convertFractionPartToBin(fracPartDec);
 	}
 
+	string srcExpBin = SUtils::convertDecToBin(to_string(exp));
 
-	return QFloat();
+	if (srcSignificandBin.size() > BIT_IN_SIGNIFICAND)
+	{
+		srcSignificandBin = srcSignificandBin.substr(0, BIT_IN_SIGNIFICAND);
+	}
+
+	for (int i = 0; i < srcExpBin.size(); i++)
+	{
+		if (srcExpBin[i] == '1')
+		{
+			BUtils::setBit(result.data, (BIT_IN_QFLOAT - 1) - 1 - i);
+		}
+	}
+
+	for (int i = 0; i < srcSignificandBin.size(); i++)
+	{
+		if (srcSignificandBin[i] == '1')
+		{
+			BUtils::setBit(result.data, (BIT_IN_SIGNIFICAND - 1) - 1 - i);
+		}
+	}
+	return result;
 }
 
 QFloat QFloat::convertBinToQFloat(const string& src)
