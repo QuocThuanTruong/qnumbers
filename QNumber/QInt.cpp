@@ -205,7 +205,11 @@ QInt QInt::operator-(const QInt& other)
 {
 	return *this + QInt::convertToTwoComplement(other);			// Cộng cho bù 2
 }
-
+/**
+ *	operator* - Toán tử nhân số QInt
+ *	@param	 const QInt&    Thừa số nhân
+ *	@return	 QInt			Kết quả sau khi nhân
+ */
 QInt QInt::operator*(const QInt& other)
 {
 	QInt result;
@@ -243,7 +247,11 @@ QInt QInt::operator*(const QInt& other)
 	result = Q;													//Gán result = Q và return ket qua
 	return result;
 }
-
+/**
+ *	operator/ - Toán tử chia 2 số QInt
+ *	@param	 const QInt&    Số chia
+ *	@return	 QInt			Kết quả sau khi chia
+ */
 QInt QInt::operator/(const QInt& other)
 {																// Q/M
 	QInt M = other;												// tạo tiến tạm M

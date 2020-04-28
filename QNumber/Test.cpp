@@ -8,7 +8,7 @@ int main()
 	//TO DO
 	//Test here
 	string a = "250";
-	string b = "-50";
+	string b = "50";
 
 	cout << "a: " << a << endl;
 	cout << "b: " << b << endl;
