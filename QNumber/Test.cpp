@@ -7,8 +7,8 @@ int main()
 {
 	//TO DO
 	//Test here
-	string a = "-50";
-	string b = "240";
+	string a = "250";
+	string b = "-50";
 
 	cout << "a: " << a << endl;
 	cout << "b: " << b << endl;
@@ -24,8 +24,8 @@ int main()
 	d.scanQInt(b, 10);
 	
 	(c + d).printQInt(10);
-	(c / d).printQInt(10);
 	(c * d).printQInt(10);
-
+	(c / d).printQInt(10);
+	
 	return 0;
 }
