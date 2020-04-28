@@ -92,9 +92,9 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 
 		exp = intPartBin.size() - 1;
 
-		if (exp > BIAS - 1)
+		if (exp > BIAS)
 		{
-			exp = BIAS - 1;
+			exp = BIAS;
 		}
 
 		if (exp == 0)
