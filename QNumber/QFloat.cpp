@@ -53,7 +53,102 @@ void QFloat::printQFloat(const int base)
 
 QFloat QFloat::convertDecToQFloat(const string& src)
 {
-	return QFloat();
+	QFloat result;
+	int posOfDot;
+	int exp = 0;
+	string intPartDec;
+	string fracPartDec;
+	string intPartBin;
+	string fracPartBin;
+	string srcSignificandBin;
+	string srcDec = src;
+
+	if (srcDec == "0") return result;
+	else
+	{
+		if (srcDec[0] == '-')
+		{
+			srcDec.erase(0, 1);
+		}
+	}
+
+	posOfDot = src.find_first_of('.', 0);
+	if (posOfDot == string::npos)
+	{
+		srcDec += ".0";
+	}
+
+	posOfDot = srcDec.find_first_of('.', 0);
+	intPartDec = srcDec.substr(0, posOfDot - 1);
+	fracPartDec = srcDec.substr(posOfDot + 1);
+
+	if (intPartDec != "0")
+	{
+		intPartBin = SUtils::convertDecToBin(intPartDec);
+		fracPartBin = SUtils::convertFractionPartToBin(fracPartDec);
+
+		exp = intPartBin.size() - 1;
+
+		if (exp > BIAS)
+		{
+			exp = BIAS - 1;
+		}
+
+		if (exp == 0)
+		{
+			srcSignificandBin = fracPartBin;
+		}
+		else
+		{
+			srcSignificandBin = intPartBin.substr(1, exp) + fracPartBin;
+		}
+
+		exp = exp + BIAS;
+	}
+	else
+	{
+		while (exp < BIAS)
+		{
+			exp++;
+			string newFracDec = SUtils::mulOfPositiveIntegerAndTwo(fracPartDec);
+
+			if (newFracDec.size() > fracPartDec.size())
+			{
+				fracPartDec = newFracDec.substr(1, fracPartDec.size());
+				break;
+			}
+			else
+			{
+				fracPartDec = newFracDec;
+			}
+		}
+		exp = BIAS - exp;
+		srcSignificandBin = SUtils::convertFractionPartToBin(fracPartDec);
+	}
+
+	string srcExpBin = SUtils::convertDecToBin(to_string(exp));
+
+	if (srcSignificandBin.size() > BIT_IN_SIGNIFICAND)
+	{
+		srcSignificandBin = srcSignificandBin.substr(0, BIT_IN_SIGNIFICAND);
+	}
+
+	for (int i = 0; i < srcExpBin.size(); i++)
+	{
+		if (srcExpBin[i] == '1')
+		{
+			BUtils::setBit(result.data, (BIT_IN_QFLOAT - 1) - 1 - i);
+		}
+	}
+
+	for (int i = 0; i < srcSignificandBin.size(); i++)
+	{
+		if (srcSignificandBin[i] == '1')
+		{
+			BUtils::setBit(result.data, (BIT_IN_SIGNIFICAND - 1) - 1 - i);
+		}
+	}
+	return result;
 }
 
 QFloat QFloat::convertBinToQFloat(const string& src)

@@ -27,5 +27,9 @@ int main()
 
 	cout << IntegerStringUtils::convertFractionPartToBin("1") << endl;
 
+	QFloat e("0.1");
+	e.printQFloat(2);
+	// qua ben nay chay
+
 	return 0;
 }
