@@ -30,7 +30,7 @@ int main()
 
 	//cout << IntegerStringUtils::convertFractionPartToBin("1") << endl;
 
-	QFloat e("12.1", 10);
+	QFloat e("9457837593845.123146", 10);
 	e.printQFloat(2);
 	// qua ben nay chay
 
