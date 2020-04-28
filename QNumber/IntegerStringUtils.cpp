@@ -224,7 +224,6 @@ string IntegerStringUtils::convertFractionPartToBin(string srcFrac)
 	return result;
 }
 
-
 string IntegerStringUtils::divideDecStringByTwo(const string& divisor)
 {
 	string result;

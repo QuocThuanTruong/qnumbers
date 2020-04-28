@@ -8,14 +8,14 @@ int main()
 	//TO DO
 	//Test here
 	string a = "250";
-	string b = "50";
+	string b = "-50";
 
 	cout << "a: " << a << endl;
 	cout << "b: " << b << endl;
 
 	QInt c;
 	c.scanQInt(a, 10);
-	cout << "b: ";
+	cout << "a: ";
 	c.printQInt(2);
 	c.printQInt(10);
 	c.printQInt(16);
@@ -24,6 +24,9 @@ int main()
 	d.scanQInt(b, 10);
 	
 	(c + d).printQInt(10);
+
+	cout << "c / d: ";
+	(c / d).printQInt(10);
 
 	cout << IntegerStringUtils::convertFractionPartToBin("1") << endl;
 
