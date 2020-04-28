@@ -54,8 +54,7 @@ void QFloat::printQFloat(const int base)
 QFloat QFloat::convertDecToQFloat(const string& src)
 {
 	QFloat result;
-	int posOfDot0;
-	int posOfDot1;
+	int posOfDot;
 	int exp = 0;
 	string intPartDec;
 	string fracPartDec;
@@ -73,15 +72,15 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 		}
 	}
 
-	posOfDot0 = src.find_first_of('.', 0);
-	if (posOfDot0 == string::npos)
+	posOfDot = src.find_first_of('.', 0);
+	if (posOfDot == string::npos)
 	{
 		srcDec += ".0";
 	}
 
-	posOfDot1 = srcDec.find_first_of('.', 0);
-	intPartDec = srcDec.substr(0, posOfDot1 - 1);
-	fracPartDec = srcDec.substr(posOfDot1 + 1);
+	posOfDot = srcDec.find_first_of('.', 0);
+	intPartDec = srcDec.substr(0, posOfDot - 1);
+	fracPartDec = srcDec.substr(posOfDot + 1);
 
 	if (intPartDec != "0")
 	{
