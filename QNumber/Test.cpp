@@ -28,9 +28,9 @@ int main()
 	cout << "c / d: ";
 	(c / d).printQInt(10);
 
-	cout << IntegerStringUtils::convertFractionPartToBin("1") << endl;
+	//cout << IntegerStringUtils::convertFractionPartToBin("1") << endl;
 
-	QFloat e("0.1");
+	QFloat e("12.1", 10);
 	e.printQFloat(2);
 	// qua ben nay chay
 
