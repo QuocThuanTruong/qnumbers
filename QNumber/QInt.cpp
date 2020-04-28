@@ -218,35 +218,36 @@ QInt QInt::operator*(const QInt& other)
 	QInt A;
 	QInt Q = other;
 	bool Q_1 = 0;												
-	int k = BIT_IN_QINT;										//k = 128
+	int k = BIT_IN_QINT;										
 
-	if (this->equalZero() || Q.equalZero())						//Một trong 2 mà nhan nhau bang 0 thì return result
+	if (this->equalZero() || Q.equalZero())							//Một trong 2 mà nhan nhau bang 0 thì return result
 	{
 		return result;
 	}
 
 	while (k > 0)
 	{
-		bool Q_0 = BitUtils::getBit(Q.data,0);					//lấy Q_0 cua Q
+		bool Q_0 = BitUtils::getBit(Q.data,0);						//lấy Q_0 cua Q
 
-		if (Q_0 == true && Q_1 == false)						//Nếu 2 bit cuối Q_0 =1, Q_1 = 0
+		if (Q_0 == true && Q_1 == false)							//Nếu 2 bit cuối Q_0 =1, Q_1 = 0
 		{
-			A = A - *this;										//A-M->A
+			A = A - *this;											//A-M->A
 		}
 
-		if (Q_0 == false && Q_1 == true)						//Nếu 2 bit cuối Q_0 =0, Q_1 = 1
+		if (Q_0 == false && Q_1 == true)							//Nếu 2 bit cuối Q_0 =0, Q_1 = 1
 		{
-			A = A + *this;										//A+M->A
+			A = A + *this;											//A+M->A
 		}
 								
-		Q_1 = Q_0;												//Shift right[A,Q,Q_1]
-		Q = Q >> 1;												//Q shift right
-		BitUtils::setBit(Q.data,BIT_IN_QINT - 1,BitUtils::getBit(A.data,0));//Lấy bit phải nhất của A bỏ qua bit trái nhất của Q vì đang dịch phải
-		A = A >> 1;												//A shift right
+		Q_1 = Q_0;																	//Shift right[A,Q,Q_1]
+		Q = Q >> 1;																	//Q shift right
+		BitUtils::setBit(Q.data,BIT_IN_QINT - 1,BitUtils::getBit(A.data,0));		//Lấy bit phải nhất của A bỏ qua bit trái nhất của Q vì đang dịch phải
+		A = A >> 1;																	//A shift right
 		k--;
 	}
 
-	result = Q;													//Gán result = Q và return ket qua
+	result = Q;														//Gán result = Q và return ket qua
+
 	return result;
 }
 /**
@@ -255,63 +256,64 @@ QInt QInt::operator*(const QInt& other)
  *	@return	 QInt			Kết quả sau khi chia
  */
 QInt QInt::operator/(const QInt& other)
-{																// Q/M
-	QInt M = other;												// tạo tiến tạm M
-	if (M.equalZero())											// Nếu M = 0 , M là số chia
-	{
-		throw "Division by zero!";
-	}
-	if ( (M - QInt("1",10)).equalZero() || this->equalZero())	//Nếu số chia M hoặc số bị chia this bằng 0
-	{
-		return *this;											// return về this
-	}
-
+{																	// Q / M
 	QInt result;
 	QInt A;
 	QInt Q = *this;
-	int k = BIT_IN_QINT;										//k = 128
+	QInt M = other;													// tạo tiến tạm M
+	int k = BIT_IN_QINT;
 	bool isNegative = false;
 	bool Q_0 = 0;
 
-	if ((Q.isNegative() && !M.isNegative() || (!Q.isNegative() && M.isNegative())))
-	{															//Nếu 2 số trái dấu
+	if (M.equalZero())												// Nếu M = 0 , M là số bị chia
+	{
+		throw "Division by zero!";
+	}
+
+	if ( (M - QInt("1",10)).equalZero() || this->equalZero())							//Nếu số chia M hoặc số bị chia this bằng 0
+	{
+		return *this;												
+	}
+
+	if ((Q.isNegative() && !M.isNegative() || (!Q.isNegative() && M.isNegative())))		//Nếu 2 số trái dấu
+	{																
 		isNegative = true;										
-	}															//Ngược lai là false
+	}																					
 
 	if (Q.isNegative())
 	{
-		QInt::inverseTwoComplement(Q);							//Nếu Q âm thì chuyển về dạng số dương
+		Q = QInt::inverseTwoComplement(Q);								//Nếu Q âm thì chuyển về dạng số dương
 	}
 
 	if (M.isNegative())
 	{
-		QInt::inverseTwoComplement(M);							//Nếu M âm thì chuyển về dạng số dương
+		M = QInt::inverseTwoComplement(M);								//Nếu M âm thì chuyển về dạng số dương
 	}
 
 	while (k > 0)
 	{
-																//Shift left[A,Q]
-		A = A << 1;												//Dịch trái A
-		BitUtils::setBit(A.data,0, BitUtils::getBit(Q.data, BIT_IN_QINT-1));//Lấy bit trái nhất của Q bỏ qua  A vì đang dịch trái
-		Q = Q << 1;												//Dịch trái Q
+																						//Shift left[A,Q]
+		A = A << 1;																		//Dịch trái A
+		BitUtils::setBit(A.data,0, BitUtils::getBit(Q.data, BIT_IN_QINT-1));			//Lấy bit trái nhất của Q bỏ qua  A vì đang dịch trái
+		Q = Q << 1;																		//Dịch trái Q
 		
-		A = A - M;												//A-M->A
-		if (A.isNegative())										//Nếu A < 0
+		A = A - M;														//A-M->A
+		if (A.isNegative())												//Nếu A < 0
 		{
-			A = A + M;											//Q_0 = 0 đã khai báo mặc định ở trên, A+M->A
+			A = A + M;													//Q_0 = 0 đã khai báo mặc định ở trên, A+M->A
 		}
 		else
 		{
 			Q_0 = 1;
-			BitUtils::setBit(Q.data, 0, Q_0);					//set bit 1 cho bit thu 0 cua Q
+			BitUtils::setBit(Q.data, 0, Q_0);							//set bit 1 cho bit thu 0 cua Q
 		}
 		k--;
 	}
 
-	result = Q;												// kết quả Q là thương A là số dư
-	if (isNegative == true)									//Nếu cho kết quả âm thì chuyen qua bu 2
+	result = Q;															// kết quả Q là thương A là số dư
+	if (isNegative == true)												//Nếu cho kết quả âm thì chuyển qua bù 2
 	{
-		QInt::convertToTwoComplement(result);
+		result = QInt::convertToTwoComplement(result);
 	}
 
 	return result;

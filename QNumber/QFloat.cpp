@@ -53,17 +53,21 @@ void QFloat::printQFloat(const int base)
 
 QFloat QFloat::convertDecToQFloat(const string& src)
 {
-	QFloat result;
 	int posOfDot;
 	int exp = 0;
+	QFloat result;
 	string intPartDec;
 	string fracPartDec;
 	string intPartBin;
 	string fracPartBin;
-	string srcSignificandBin;
+	string srcExpBin;
+	string srcSignificandBin = "";
 	string srcDec = src;
 
-	if (srcDec == "0") return result;
+	if (srcDec == "0")
+	{
+		return result;
+	}
 	else
 	{
 		if (srcDec[0] == '-')
@@ -72,15 +76,14 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 		}
 	}
 
-	posOfDot = src.find_first_of('.', 0);
-	if (posOfDot == string::npos)
+	if (srcDec.find('.', 0) == string::npos)
 	{
 		srcDec += ".0";
 	}
 
-	posOfDot = srcDec.find_first_of('.', 0);
-	intPartDec = srcDec.substr(0, posOfDot - 1);
-	fracPartDec = srcDec.substr(posOfDot + 1);
+	posOfDot = srcDec.find('.', 0);
+	intPartDec = srcDec.substr(0, posOfDot);
+	fracPartDec = srcDec.substr(posOfDot + 1, srcDec.size() - posOfDot - 1);
 
 	if (intPartDec != "0")
 	{
@@ -89,7 +92,7 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 
 		exp = intPartBin.size() - 1;
 
-		if (exp > BIAS)
+		if (exp > BIAS - 1)
 		{
 			exp = BIAS - 1;
 		}
@@ -122,11 +125,17 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 				fracPartDec = newFracDec;
 			}
 		}
+
 		exp = BIAS - exp;
 		srcSignificandBin = SUtils::convertFractionPartToBin(fracPartDec);
 	}
 
-	string srcExpBin = SUtils::convertDecToBin(to_string(exp));
+	srcExpBin = SUtils::convertDecToBin(to_string(exp));
+	
+	while (srcExpBin.size() < BIT_IN_EXP)
+	{
+		srcExpBin = '0' + srcExpBin;
+	}
 
 	if (srcSignificandBin.size() > BIT_IN_SIGNIFICAND)
 	{
@@ -145,9 +154,10 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 	{
 		if (srcSignificandBin[i] == '1')
 		{
-			BUtils::setBit(result.data, (BIT_IN_SIGNIFICAND - 1) - 1 - i);
+			BUtils::setBit(result.data, BIT_IN_SIGNIFICAND - 1 - i);
 		}
 	}
+
 	return result;
 }
 
