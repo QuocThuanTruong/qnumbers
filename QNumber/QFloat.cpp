@@ -69,7 +69,7 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 	string srcSignificandBin = "";
 	string srcDec = src;
 
-	if (srcDec == "0")                         // Nếu chuỗi là 0 -> trả về dãy bit toàn 0  
+	if (srcDec == "0")
 	{
 		return result;
 	}
@@ -81,14 +81,14 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 		}
 	}
 
-	if (srcDec.find('.', 0) == string::npos)  // Tìm vị trí ngăn cách phần nguyên và phần thật phân
+	if (srcDec.find('.', 0) == string::npos)
 	{
 		srcDec += ".0";                       // Nếu không tồn tại phần thập phân thì thêm .0 vào
 	}
 
-	posOfDot = srcDec.find('.', 0);          // Vị trí chia phần nguyên và thập phân ( dấu . )
-	intPartDec = srcDec.substr(0, posOfDot); // Phần nguyên
-	fracPartDec = srcDec.substr(posOfDot + 1, srcDec.size() - posOfDot - 1);  // Phần thập phân
+	posOfDot = srcDec.find('.', 0);
+	intPartDec = srcDec.substr(0, posOfDot);
+	fracPartDec = srcDec.substr(posOfDot + 1, srcDec.size() - posOfDot - 1);
 
 	if (intPartDec != "0")                   // Trường hợp 1: Phần nguyên là 0
 	{
@@ -134,11 +134,16 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 			}
 		}
 
-		exp = BIAS - exp; // Đưa mũ về số quá K (- exp bởi vì mũ tìm được là dương nhưng dịch số qua trái thì phải nhân cho số mũ âm )
-		srcSignificandBin = SUtils::convertFractionPartToBin(fracPartDec); // Chuyển về nhị phân
+		exp = BIAS - exp;
+		srcSignificandBin = SUtils::convertFractionPartToBin(fracPartDec);
 	}
 
-	srcExpBin = SUtils::convertDecToBin(to_string(exp)); // chuyển số mũ về nhị phân
+	srcExpBin = SUtils::convertDecToBin(to_string(exp));
+	
+	while (srcExpBin.size() < BIT_IN_EXP)
+	{
+		srcExpBin = '0' + srcExpBin;
+	}
 
 	// Nếu số mũ chưa đầy 15 số thì phải thêm 0 vào trước để đủ 15 số
 	while (srcExpBin.size() < BIT_IN_EXP) 
