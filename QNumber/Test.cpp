@@ -1,19 +1,12 @@
-#include "IntegerStringUtils.h"
+﻿#include "IntegerStringUtils.h"
 #include "BitUtils.h"
 #include "QFloat.h"
 #include "QInt.h"
 
 int main()
 {
-	//TO DO
-	//Test here
-	string a = "0.6875";
-	string b = "12.7258635";
-
-	QFloat f;
-	f.scanQFloat(b, 10);
-	f.printQFloat(10);
-	f.printQFloat(2);
+	//TODO: Test here Nếu test ở đây thì qua bên Main.cpp bấm Ctrl A, xong bấm Ctrl K rồi bấm Ctrl C --> comment nó lại
+	//Unlock comment: Ctrl A , Ctrl K, Ctrl U
 
 	return 0;
 }
