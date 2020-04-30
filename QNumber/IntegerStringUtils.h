@@ -21,6 +21,8 @@ public:
 	static string addTwoPositiveIntegerString(string srcA, string srcB);
 	static string mulOfPositiveIntegerAndTwo(string src);
 	static string powerOfTwo(unsigned int exp);
+
+	static string mulOfPositiveIntegerAndFive(string src);
 };
 
 #endif // !_STRING_UTILS_H

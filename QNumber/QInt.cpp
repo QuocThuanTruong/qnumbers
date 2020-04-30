@@ -21,7 +21,7 @@ QInt::QInt()
  */ 
 QInt::QInt(const string& src, const int base)
 {
-	switch (base)
+	switch (base)								// Gọi hàm chuyển với hệ cơ số tương ứng
 	{
 	case 2:
 		*this = QInt::convertBinToQInt(src);
@@ -36,10 +36,21 @@ QInt::QInt(const string& src, const int base)
 
 }
 
+/**
+ *	Destructor QInt - Hàm hủy mặc định
+ *	@param	 none
+ *	@return	 none
+ */
 QInt::~QInt()
 {
 }
 
+/**
+ *	Hàm scanQInt - Hàm nhập QInt từ chuỗi với hệ cơ số tương ứng
+ *	@param	 const string&		Chuỗi cần chuyển
+ *	@param	 const int			Hệ cơ số của chuỗi
+ *	@return	 none
+ */
 void QInt::scanQInt(const string& src, const int base)
 {
 	switch (base)
@@ -56,6 +67,11 @@ void QInt::scanQInt(const string& src, const int base)
 	}
 }
 
+/**
+ *	Hàm printQInt - Hàm nhập xuất QInt theo hệ cơ số tương ứng
+ *	@param	 const int			Hệ cơ số cần xuất
+ *	@return	 none
+ */
 void QInt::printQInt(const int base)
 {
 	switch (base)
@@ -72,16 +88,21 @@ void QInt::printQInt(const int base)
 	}
 }
 
+/**
+ *	Hàm convertQIntToBin - Hàm chuyển QInt sang chuỗi nhị phân
+ *	@param	 QInt		Số QInt cần chuyển
+ *	@return	 string		Chuỗi nhị phân
+ */
 string QInt::convertQIntToBin(QInt src)
 {
 	string result = "";
 
-	for (int i = 0; i < BIT_IN_QINT; i++)
+	for (int i = 0; i < BIT_IN_QINT; i++)								// Duyệt QInt get từng bit ra và gán cho kết quả
 	{
 		result = (char)(BUtils::getBit(src.data, i) + '0') + result;
 	}
 
-	while (result[0] == '0' && result.size() > 1)
+	while (result[0] == '0' && result.size() > 1)						// Xóa số 0 thừa ở đầu chuỗi
 	{
 		result.erase(0, 1);
 	}
@@ -89,25 +110,30 @@ string QInt::convertQIntToBin(QInt src)
 	return result;
 }
 
+/**
+ *	Hàm convertQIntToDec - Hàm chuyển QInt sang chuỗi thập phân
+ *	@param	 QInt		Số QInt cần chuyển
+ *	@return	 string		Chuỗi thập phân
+ */
 string QInt::convertQIntToDec(QInt src)
 {
 	QInt temp = src;
 	string result = "0";
 
-	if (src.isNegative())
+	if (src.isNegative())							// Nếu QInt âm thì đảo bù 2 của nó bằng cách - 1 rồi đảo bit
 	{
 		temp = QInt::inverseTwoComplement(temp);
 	}
 
-	for (int i = 0; i < BIT_IN_QINT; i++)
+	for (int i = 0; i < BIT_IN_QINT; i++)			// Duyệt bit của QInt và chuyển về dạng thập phân theo công thức hệ cơ số q tổng quát
 	{
 		if (BUtils::getBit(temp.data, i) == 1)
 		{
-			result = SUtils::addTwoPositiveIntegerString(result, SUtils::powerOfTwo(i));
+			result = SUtils::addTwoPositiveIntegerString(result, SUtils::powerOfTwo(i));		// VD: 2^0 + 2^1 + 2^xxx...
 		}
 	}
 
-	if (src.isNegative())
+	if (src.isNegative())							// Nếu QInt ban đầu âm thì thêm dấu '-' vào chuỗi kết quả
 	{
 		result = '-' + result;
 	}
@@ -115,16 +141,26 @@ string QInt::convertQIntToDec(QInt src)
 	return result;
 }
 
+/**
+ *	Hàm convertQIntToHex - Hàm chuyển QInt sang chuỗi thập lục phân
+ *	@param	 QInt		Số QInt cần chuyển
+ *	@return	 string		Chuỗi thập lục phân
+ */
 string QInt::convertQIntToHex(QInt src)
 {
-	return SUtils::convertBinToHex(QInt::convertQIntToBin(src));
+	return SUtils::convertBinToHex(QInt::convertQIntToBin(src));	// chuyển QInt -> Bin -> Hex
 }
 
+/**
+ *	Hàm convertBinToQInt - Hàm chuyển chuỗi nhị phân sang QInt
+ *	@param	 const string&		Chuỗi nhị phân cần chuyển
+ *	@return	 QInt				Số QInt kết quả
+ */
 QInt QInt::convertBinToQInt(const string& src)
 {
-	QInt result;
+	QInt result;												// result mặc định toàn bit 0
 
-	for (int i = 0; i < src.size(); i++)
+	for (int i = 0; i < src.size(); i++)						// Duyệt chuỗi và set bit tương ứng cho QInt (chỉ set bit 1)
 	{
 		if (src[i] == '1')
 		{
@@ -135,24 +171,44 @@ QInt QInt::convertBinToQInt(const string& src)
 	return result;
 }
 
+/**
+ *	Hàm convertDecToQInt - Hàm chuyển chuỗi thập phân sang QInt
+ *	@param	 const string&		Chuỗi thập phân cần chuyển
+ *	@return	 QInt				Số QInt kết quả
+ */
 QInt QInt::convertDecToQInt(const string& src)
 {
-	return QInt::convertBinToQInt(SUtils::convertDecToBin(src));
+	return QInt::convertBinToQInt(SUtils::convertDecToBin(src));		// Dec -> Bin -> QInt
 }
 
+/**
+ *	Hàm convertHexToQInt - Hàm chuyển chuỗi thập lục phân sang QInt
+ *	@param	 const string&		Chuỗi thập lục phân cần chuyển
+ *	@return	 QInt				Số QInt kết quả
+ */
 QInt QInt::convertHexToQInt(const string& src)
 {
-	return QInt::convertBinToQInt(SUtils::convertHexToBin(src));
+	return QInt::convertBinToQInt(SUtils::convertHexToBin(src));		// Hex -> Bin -> QInt
 }
 
+/**
+ *	Hàm isNegative - Hàm kiểm tra QInt có âm hay không
+ *	@param	 none
+ *	@return	 bool				Kết quả kiểm tra
+ */
 bool QInt::isNegative()
 {
-	return BUtils::getBit(this->data, BIT_IN_QINT - 1);
+	return BUtils::getBit(this->data, BIT_IN_QINT - 1);					// Lấy bit trái nhất nếu bằng '1' là âm và ngược lại
 }
 
+/**
+ *	Hàm equalZero - Hàm kiểm tra QInt bằng 0 hay không
+ *	@param	 none
+ *	@return	 bool				Kết quả kiểm tra
+ */
 bool QInt::equalZero()
 {
-	for (int i = 0; i < TOTAL_BLOCK; i++)
+	for (int i = 0; i < TOTAL_BLOCK; i++)								// Kiểm tra từng block nếu bằng 0 hết tức là QInt == 0
 	{
 		if (this->data[i] != 0)
 		{
@@ -163,11 +219,21 @@ bool QInt::equalZero()
 	return true;
 }
 
+/**
+ *	Hàm convertToTwoComplement - Hàm chuyển QInt sang bù 2
+ *	@param	 QInt				Số cần chuyển
+ *	@return	 QInt				Kết quả dạng bù 2
+ */
 QInt QInt::convertToTwoComplement(QInt src)
 {
 	return ~src + QInt("1", 10);
 }
 
+/**
+ *	Hàm inverseTwoComplement - Hàm đảo dạng bù 2 của QInt
+ *	@param	 QInt				Số cần đảo
+ *	@return	 QInt				Kết quả là số âm ban đầu
+ */
 QInt QInt::inverseTwoComplement(QInt src)
 {
 	return ~(src - QInt("1", 10));
@@ -403,12 +469,12 @@ bool QInt::operator<=(const QInt& other)
  */
 QInt& QInt::operator=(const QInt& other)
 {
-	if (other.data == this->data)
+	if (other.data == this->data)					// Nếu gán cho chính nó thì trả về *this
 	{
 		return *this;
 	}
 
-	for (int i = 0; i < TOTAL_BLOCK; i++)
+	for (int i = 0; i < TOTAL_BLOCK; i++)			// Gán từng block cho nhau
 	{
 		this->data[i] = other.data[i];
 	}

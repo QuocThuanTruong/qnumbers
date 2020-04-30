@@ -1,5 +1,9 @@
 ﻿#include "QFloat.h"
-
+/**
+ *	Constructor QFloat - Hàm khởi tạo mặc định QFloat = 0
+ *	@param	 none
+ *	@return	 none
+ */
 QFloat::QFloat()
 {
 	for (int i = 0; i < TOTAL_BLOCK; i++)
@@ -8,9 +12,15 @@ QFloat::QFloat()
 	}
 }
 
+/**
+ *	Constructor QFloat - Hàm khởi tạo QFloat từ chuỗi số truyền vào với cơ số thích hợp
+ *	@param	 const string&		Chuỗi số cần chuyển thành QInt
+ *	@param	 const int			Hệ cơ số của chuỗi
+ *	@return	 none
+ */
 QFloat::QFloat(const string& src, const int base)
 {
-	switch (base)
+	switch (base)										// Gọi hàm chuyển với hệ cơ số tương ứng
 	{
 	case 2:
 		*this = QFloat::convertBinToQFloat(src);
@@ -21,10 +31,21 @@ QFloat::QFloat(const string& src, const int base)
 	}
 }
 
+/**
+ *	Destructor QFloat - Hàm hủy mặc định
+ *	@param	 none
+ *	@return	 none
+ */
 QFloat::~QFloat()
 {
 }
 
+/**
+ *	Hàm scanQFloat - Hàm nhập QFloat từ chuỗi với hệ cơ số tương ứng
+ *	@param	 const string&		Chuỗi cần chuyển
+ *	@param	 const int			Hệ cơ số của chuỗi
+ *	@return	 none
+ */
 void QFloat::scanQFloat(const string& src, const int base)
 {
 	switch (base)
@@ -38,6 +59,11 @@ void QFloat::scanQFloat(const string& src, const int base)
 	}
 }
 
+/**
+ *	Hàm printQFloat - Hàm nhập xuất QFloat theo hệ cơ số tương ứng
+ *	@param	 const int			Hệ cơ số cần xuất
+ *	@return	 none
+ */
 void QFloat::printQFloat(const int base)
 {
 	switch (base)
@@ -52,7 +78,7 @@ void QFloat::printQFloat(const int base)
 }
 
 /**
- *	Ham convertDecToQFloat - Hàm chuyển đổi chuỗi thập phân sang số QFloat ( số chấm động chính xác cao )
+ *	Ham convertDecToQFloat - Hàm chuyển đổi chuỗi thập phân sang số QFloat
  *	@param	 string		Chuỗi thập phân cần chuyển
  *	@return	 QFloat	    Số QFloat 
  */
@@ -69,13 +95,13 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 	string srcSignificandBin = "";
 	string srcDec = src;
 
-	if (srcDec == "0")
+	if (srcDec == "0")												// Nếu số đã cho là 0 thì trả về kết quả
 	{
 		return result;
 	}
 	else
 	{
-		if (srcDec[0] == '-')                 // Xét dấu, nếu âm thì setbit dấu = 1 là bit thứ 127 và bỏ đi
+		if (srcDec[0] == '-')										// Xét dấu, nếu âm thì setbit dấu = 1 là bit thứ 127 và bỏ đi
 		{
 			srcDec.erase(0, 1);
 		}
@@ -83,82 +109,71 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 
 	if (srcDec.find('.', 0) == string::npos)
 	{
-		srcDec += ".0";                       // Nếu không tồn tại phần thập phân thì thêm .0 vào
+		srcDec += ".0";												// Nếu không tồn tại phần thập phân thì thêm .0 vào
 	}
 
 	posOfDot = srcDec.find('.', 0);
 	intPartDec = srcDec.substr(0, posOfDot);
 	fracPartDec = srcDec.substr(posOfDot + 1, srcDec.size() - posOfDot - 1);
 
-	if (intPartDec != "0")                   // Trường hợp 1: Phần nguyên là 0
+	if (intPartDec != "0")																// Trường hợp 1: Phần nguyên là 0
 	{
-		intPartBin = SUtils::convertDecToBin(intPartDec);   // Chuyển phần nguyên về nhị phân
-		fracPartBin = SUtils::convertFractionPartToBin(fracPartDec);  // Chuyển phần thập phân về nhị phân
-
-		exp = intPartBin.size() - 1;  // Số mũ
-
-		if (exp > BIAS)     // Tránh tràn số ( BIAS là miền giá trị = 2^(15-1)-1
+		intPartBin = SUtils::convertDecToBin(intPartDec);								// Chuyển phần nguyên về nhị phân
+		fracPartBin = SUtils::convertFractionPartToBin(fracPartDec);				    // Chuyển phần thập phân về nhị phân
+	
+		exp = intPartBin.size() - 1;			
+		
+		if (exp > BIAS)																	// Tránh tràn số ( vì mũ dương lớn nhất là BIAS)
 		{
 			exp = BIAS;
 		}
 
-		if (exp == 0)    // Trường hợp mũ  = 0
+		if (exp == 0)																	// Trường hợp mũ  = 0
 		{
-			srcSignificandBin = fracPartBin; // Không cần dịch, chuổi Significand ( định trị ) chính là phần nhị phân phía sau
+			srcSignificandBin = fracPartBin;											// Không cần dịch, chuổi Significand ( định trị ) chính là phần nhị phân phía sau
 		}
-		else
+		else																			// Ngược lại thì chuỗi Significand = phần nhị phân của phần nguyên ( bỏ đi 1 ở đầu ) + phần nhị phân của phần thập phân
 		{
-			// Ngược lại thì chuỗi Significand = phần nhị phân của phần nguyên ( bỏ đi 1 ở đầu ) + phần nhị phân của phần thập phân
 			srcSignificandBin = intPartBin.substr(1, exp) + fracPartBin;
 		}
 
-		exp = exp + BIAS;   // Chuyển số mũ về số quá K
+		exp = exp + BIAS;																// Chuyển số mũ về số quá K
 	}
-	else      // Trường hợp 2: Phần nguyên là 0
+	else																				// Trường hợp 2: Phần nguyên là 0
 	{
-		// Tìm số 1 đầu tiên để đưa về dạng 1.F * 2^E
-		while (exp < BIAS) 
+		while (exp < BIAS)																// Tìm số 1 đầu tiên để đưa về dạng 1.F * 2^E nếu exp > BIAS thì nó là số không thể chuẩn hóa
 		{
 			exp++;
-			string newFracDec = SUtils::mulOfPositiveIntegerAndTwo(fracPartDec); // Chuỗi tạm bằng chuỗi hiện tại nhân cho 2 
+			string newFracDec = SUtils::mulOfPositiveIntegerAndTwo(fracPartDec);		// Chuỗi tạm bằng chuỗi hiện tại nhân cho 2 
 
-			if (newFracDec.size() > fracPartDec.size()) // So sánh 2 chuỗi, khi mà chuỗi tạm > chuỗi hiện tại tức > 1 
-				                                       //thì ta lấy phần sau làm chuỗi hiện tại
-			{                                         // ví dụ chuỗi hiện tại là 75 -> chuỗi tạm = 75*2=150 ->size lớn hơn chuỗi hiện tại 
-				fracPartDec = newFracDec.substr(1, fracPartDec.size());  // -> tức là > 1 -> lấy 50 làm chuỗi hiện tại
+			if (newFracDec.size() > fracPartDec.size())									// So sánh 2 chuỗi, khi mà chuỗi tạm > chuỗi hiện tại (tức là số thập phân khi nhân > 1) 																					
+			{																			// thì ta lấy phần sau làm chuỗi hiện tạiví dụ chuỗi hiện tại là 75 -> chuỗi tạm = 75*2=150 ->size lớn hơn chuỗi hiện tại 
+				fracPartDec = newFracDec.substr(1, fracPartDec.size());					// -> tức là > 1 -> lấy 50 làm chuỗi hiện tại
 				break;
 			}
-			else            // Ngược lại lấy gán thằng tạm cho thằng hiện tại khi chưa vượt quá 1
+			else																		// Ngược lại lấy gán thằng tạm cho thằng hiện tại khi chưa vượt quá 1
 			{
-				fracPartDec = newFracDec;  
+				fracPartDec = newFracDec; 
 			}
 		}
-
-		exp = BIAS - exp;
+		
+		exp = BIAS - exp;																// Chuyển số mũ về số quá K
 		srcSignificandBin = SUtils::convertFractionPartToBin(fracPartDec);
 	}
 
-	srcExpBin = SUtils::convertDecToBin(to_string(exp));
-	
-	while (srcExpBin.size() < BIT_IN_EXP)
+	srcExpBin = SUtils::convertDecToBin(to_string(exp));								// Chuyển phần mũ về dạng nhị phân
+
+	while (srcExpBin.size() < BIT_IN_EXP)												// Nếu số mũ chưa đầy 15 số thì phải thêm 0 vào trước để đủ 15 số
 	{
 		srcExpBin = '0' + srcExpBin;
 	}
 
-	// Nếu số mũ chưa đầy 15 số thì phải thêm 0 vào trước để đủ 15 số
-	while (srcExpBin.size() < BIT_IN_EXP) 
-	{
-		srcExpBin = '0' + srcExpBin;
-	}
-
-	// Nếu phần định trị lớn hơn 112 bits thì chỉ lấy 112 bits
-	if (srcSignificandBin.size() > BIT_IN_SIGNIFICAND)
+	if (srcSignificandBin.size() > BIT_IN_SIGNIFICAND)									// Nếu phần định trị lớn hơn 112 bits thì chỉ lấy 112 bits
 	{
 		srcSignificandBin = srcSignificandBin.substr(0, BIT_IN_SIGNIFICAND);
 	}
 
-	// Set bit cho phần mũ
-	for (int i = 0; i < srcExpBin.size(); i++)
+	for (int i = 0; i < srcExpBin.size(); i++)											// Set bit cho phần mũ
 	{
 		if (srcExpBin[i] == '1')
 		{
@@ -166,8 +181,7 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 		}
 	}
 
-	// Set bit cho phần định trị
-	for (int i = 0; i < srcSignificandBin.size(); i++)
+	for (int i = 0; i < srcSignificandBin.size(); i++)									// Set bit cho phần định trị
 	{
 		if (srcSignificandBin[i] == '1')
 		{
@@ -178,11 +192,16 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 	return result;
 }
 
+/**
+ *	Hàm convertBinToQFloat - Hàm chuyển chuỗi nhị phân sang QFloat
+ *	@param	 const string&		Chuỗi nhị phân cần chuyển
+ *	@return	 QFloat				Số QFloat kết quả
+ */
 QFloat QFloat::convertBinToQFloat(const string& src)
 {
-	QFloat result;
+	QFloat result;													// result mặc định toàn bit 0
 
-	for (int i = 0; i < src.size(); i++)
+	for (int i = 0; i < src.size(); i++)							// Duyệt chuỗi và set bit tương ứng cho QInt (chỉ set bit 1)
 	{
 		if (src[i] == '1')
 		{
@@ -193,19 +212,230 @@ QFloat QFloat::convertBinToQFloat(const string& src)
 	return result;
 }
 
+/**
+ *	Hàm convertQFloatToDec - Hàm chuyển QFloat sang chuỗi thập phân
+ *	@param	 QFloat		Số QFloat cần chuyển
+ *	@return	 string		Chuỗi thập phân
+ */
 string QFloat::convertQFloatToDec(QFloat src)
 {
-	return string();
+	int exp;
+	int posOfLastOne;
+	string result;
+	string intPartBin;
+	string fracPartBin;
+	string intPartDec;
+	string fracPartDec;
+	string srcBin = QFloat::convertQFloatToBin(src);									// Chuyển QFloat sang chuỗi nhị phân
+	string srcSign = (srcBin[0] == '1') ? "-" : "";										// Xét dấu cho chuỗi nhị phân đã chuyển
+	string srcExpBin = srcBin.substr(1, BIT_IN_EXP);									// Lấy phần mũ exp
+	string srcSignificandBin = srcBin.substr(BIT_IN_EXP + 1, BIT_IN_SIGNIFICAND);		// Lấy phần định trị significand
+	
+
+	if (QFloat::isZero(srcExpBin, srcSignificandBin))									// Trả về "0" nếu số đã cho là 0
+	{
+		return "0";
+	}
+
+	if (QFloat::isInfinity(srcExpBin, srcSignificandBin))								// Trả về "Inf" nếu số đã cho là vô cực
+	{
+		return "Inf";
+	}
+
+	if (QFloat::isNaN(srcExpBin, srcSignificandBin))									// Trả về "NaN" nếu số đã cho không phải là số
+	{
+		return "NaN";
+	}
+
+	exp = stoi(srcExpBin, nullptr, 2) - BIAS;											// Chuyển phần mũ về số nguyên ( - K)
+
+	intPartBin = (QFloat::isDernomalized(srcExpBin, srcSignificandBin) == true) ? "0" : "1";		// Nếu là số chuẩn hóa thì có dạng 1.F còn không chuẩn hóa là 0.F
+	fracPartBin = srcSignificandBin;																// Phần phân số ở dạng nhị phân
+
+	while (exp != 0)																	// Dời dấu chấm động (làm cho exp == 0)
+	{
+		if (exp < 0)																	// Nếu mũ âm thì dời dấu chấm sang trái
+		{
+			if (intPartBin.size() > 0)													// Dời phần nguyên sang phần phân số
+			{
+				fracPartBin = intPartBin[intPartBin.size() - 1] + fracPartBin;
+				intPartBin.erase(intPartBin.size() - 1, 1);
+			}
+			else																		// Nếu phần nguyên đã hết thì chèn 0 vào đầu phần phân số
+			{
+				fracPartBin = '0' + fracPartBin;
+			}
+			exp++;																		
+		}
+		else																			// Ngược lại mũ dương thì dời dấu chấm sang phải
+		{
+			if (fracPartBin.size() > 0)													// Dời phần phân số sang phần nguyên
+			{
+				intPartBin += fracPartBin[0];
+				fracPartBin.erase(0, 1);
+			}
+			else																		// Nếu phần âm đã hết thì phần nguyên thêm 0 vào phía sau 
+			{
+				intPartBin += '0';
+			}
+			exp--;
+		}
+	}
+
+	if (intPartBin.size() == 0)															// Nếu phần nguyên hết thì thêm 0 vào, tức là 0.xxx
+	{
+		intPartBin += '0';
+	}
+
+	if (fracPartBin.size() == 0)														// Nếu phần phân số hết thì thêm 0 vào, tức là xxx.0
+	{
+		fracPartBin += '0';
+	}
+
+	cout << "int " << intPartBin << endl; //for test
+	cout << "frac " << fracPartBin << endl; //for test
+	intPartDec = QInt::convertQIntToDec(QInt(intPartBin, 2));							// Chuyển phần nguyên về thập phân
+
+	posOfLastOne = fracPartBin.find_last_of('1');										// Tìm số 1 cuối cùng ở phần phân số để chuyển về thập phân
+
+	if (posOfLastOne != string::npos)													// Nếu tìm đuọc thì bắt đầu chuyển theo công thức dựa vào ví dụ sau
+	{																					// 0.1011 -> Dec, lấy 0.5(1 + 0) = 0.5 -> 0.5(1 + 0.5) = 0.75 -> 0.5(0 + 0.75) = 0.375 -> 0.5(1 + 0.375) = 0.6875
+		fracPartDec = "";																// Bắt đầu là				  0
+
+		for (int i = posOfLastOne; i >= 0; i--)											// Duyệt các số tiếp theo đến đầu chuỗi
+		{																				// Độ dài thực tế khi nhân 2 số thực: VD: 5(0.5) x 5(0.5) = 25(0.25) -> expectedLen = 2
+			int expectedLen = posOfLastOne - i + 1;										// Độ dài tăng lên 1 mỗi lần lặp vì ta nhân thêm 0.5 cho nó:  5 x 25 = 125 -> expectedLen = 3
+																						
+			if (fracPartBin[i] == '1')													// Nếu là bit 1 thì ta cộng 1 + phần phân số đã nhân phía trước như ví dụ
+			{
+				fracPartDec = '1' + fracPartDec;
+			}
+
+			fracPartDec = SUtils::mulOfPositiveIntegerAndFive(fracPartDec);				// Nhân phần phân số cho 5 (0.5)
+
+			for (int i = 0; i < expectedLen - fracPartDec.size(); i++)					// Nếu chuỗi kết quả < expectedLen, ta thêm 0 và đầu vì nếu tính theo số thực: 0.5 x 0.125 = 0.0625
+			{																			// Nhưng khi tính ở đây ta chỉ lấy 5 x 125 = 625 -> thiếu số 0
+				fracPartDec = '0' + fracPartDec;										 
+			}
+		}
+
+		fracPartDec = '.' + fracPartDec;												// Thêm dấu '.' ở đầu chuỗi
+	}
+	else
+	{
+		fracPartDec = "";																// Không tìm được số '1' -> phần phân số không có (xxx.0)
+	}
+
+	result = srcSign + intPartDec + fracPartDec;										// Kết quả sẽ là tổng của dấu + phần nguyên + phần phân số
+
+	return result;
 }
 
+/**
+ *	Hàm convertQFloatToBin - Hàm chuyển QFloat sang chuỗi nhị phân
+ *	@param	 QFloat		Số QFloat cần chuyển
+ *	@return	 string		Chuỗi nhị phân
+ */
 string QFloat::convertQFloatToBin(QFloat src)
 {
 	string result = "";
 
-	for (int i = 0; i < BIT_IN_QFLOAT; i++)
+	for (int i = 0; i < BIT_IN_QFLOAT; i++)								// Lấy từng bit ra và gán cho kết quả
 	{
 		result = (char)(BUtils::getBit(src.data, i) + '0') + result;
 	}
 
 	return result;
+}
+
+/**
+ *	Hàm isZero - Hàm kiểm tra số đã cho có phải là số 0
+ *	@param	 string		phần mũ ở dạng nhị phân
+ *	@param	 string		phần định trị ở dạng nhị phân
+ *	@return	 bool		Kết quả kiểm tra
+ */
+bool QFloat::isZero(string srcExpBin, string srcSignificandBin)
+{
+	for (int i = 0; i < srcExpBin.size(); i++)				// Kiểm tra toàn 0 phần mũ
+	{
+		if (srcExpBin[i] == '1')
+		{
+			return false;
+		}
+	}
+
+	for (int i = 0; i < srcSignificandBin.size(); i++)		// Kiểm tra toàn 0 phần định trị
+	{
+		if (srcSignificandBin[i] == '1')
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
+ *	Hàm isDernomalized - Hàm kiểm tra số đã cho có phải là số không chuẩn hóa
+ *	@param	 string		phần mũ ở dạng nhị phân
+ *	@param	 string		phần định trị ở dạng nhị phân
+ *	@return	 bool		Kết quả kiểm tra
+ */
+bool QFloat::isDernomalized(string srcExpBin, string srcSignificandBin)
+{
+	for (int i = 0; i < srcExpBin.size(); i++)			// Kiểm tra toàn 0
+	{
+		if (srcExpBin[i] == '1')
+		{
+			return false;
+		}
+	}
+
+	return (QFloat::isZero(srcExpBin, srcSignificandBin) == true) ? false : true;		// Nếu phần mũ toàn 0 và không phải là số 0 thì là số không chuẩn hóa
+}
+
+/**
+ *	Hàm isInfinity - Hàm kiểm tra số đã cho có phải là số vô cực
+ *	@param	 string		phần mũ ở dạng nhị phân
+ *	@param	 string		phần định trị ở dạng nhị phân
+ *	@return	 bool		Kết quả kiểm tra
+ */
+bool QFloat::isInfinity(string srcExpBin, string srcSignificandBin)
+{
+	for (int i = 0; i < srcExpBin.size(); i++)					// Kiểm tra toàn 1 phần mũ
+	{
+		if (srcExpBin[i] == '0')
+		{
+			return false;
+		}
+	}
+
+	for (int i = 0; i < srcSignificandBin.size(); i++)			// Kiểm tra toàn 1 phần định trị
+	{
+		if (srcSignificandBin[i] == '1')
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+/**
+ *	Hàm isNaN - Hàm kiểm tra số đã cho có phải là NaN
+ *	@param	 string		phần mũ ở dạng nhị phân
+ *	@param	 string		phần định trị ở dạng nhị phân
+ *	@return	 bool		Kết quả kiểm tra
+ */
+bool QFloat::isNaN(string srcExpBin, string srcSignificandBin)
+{
+	for (int i = 0; i < srcExpBin.size(); i++)			// Kiểm tra toàn 1
+	{
+		if (srcExpBin[i] == '0')
+		{
+			return false;
+		}
+	}
+
+	return (QFloat::isInfinity(srcExpBin, srcSignificandBin) == true) ? false : true;		// Nếu phân mũ toàn 1 và không phải là vô cực thì là NaN
 }

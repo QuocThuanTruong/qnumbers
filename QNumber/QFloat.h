@@ -32,6 +32,11 @@ public:
 
 	static QFloat convertDecToQFloat(const string& src);
 	static QFloat convertBinToQFloat(const string& src);
+
+	static bool isZero(string srcExpBin, string srcSignificandBin);
+	static bool isDernomalized(string srcExpBin, string srcSignificandBin);
+	static bool isInfinity(string srcExpBin, string srcSignificandBin);
+	static bool isNaN(string srcExpBin, string srcSignificandBin);
 };
 
 #endif // !_QFLOAT_H
