@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="BitUtils.cpp" />
     <ClCompile Include="IntegerStringUtils.cpp" />
+    <ClCompile Include="Main.cpp" />
     <ClCompile Include="QFloat.cpp" />
     <ClCompile Include="QInt.cpp" />
     <ClCompile Include="Test.cpp" />
