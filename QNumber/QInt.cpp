@@ -519,7 +519,7 @@ QInt QInt::operator|(const QInt& other)
 
 
 /**
- *	operater^ - Toán tử XOR 
+ *	operator^ - Toán tử XOR 
  *	@param	 const QInt&		Số QInt truyền vào để thực hiện phép ^
  *	@return	 QInt				Lưu lại kết quả sau khi thực hiện phép ^
  */
@@ -599,12 +599,15 @@ QInt QInt::operator<<(const int& offset)
  */
 QInt& QInt::rol(const int& offset)
 {
-	//them vong lap
-	bool temp = BUtils::getBit(this->data, BIT_IN_QINT - 1);		// Lưu lại bit trái nhất
+	int a = offset;
+	while (a != 0)														// Xoay từng bit
+	{
+		bool temp = BUtils::getBit(this->data, BIT_IN_QINT - 1);		// Lưu lại bit xoay 
 
-	*this = *this << 1;												// Dịch trái dãy bit sang 1 bit
-	BUtils::setBit(this->data, 0, temp);							// Set bit trái nhất cho bit thứ 0 của dãy
-
+		*this = *this << 1;												// Dịch trái dãy bit sang 1 bit
+		BUtils::setBit(this->data, 0, temp);							// Set bit vừa lưu cho bit thứ 0 của dãy
+		a--;
+	}
 	return *this;
 }
 
@@ -616,10 +619,15 @@ QInt& QInt::rol(const int& offset)
  */
 QInt& QInt::ror(const int& offset)
 {
-	bool temp = BUtils::getBit(this->data, 0);						// Lưu lại bit phải nhất
+	int  a = offset;
+	while (a != 0)														// Xoay từng bit
+	{
+		bool temp = BUtils::getBit(this->data, 0);						// Lưu lại bit xoay phải
 
-	*this = *this >> 1;												// Dịch phải dãy bit sang 1 bit
-	BUtils::setBit(this->data, BIT_IN_QINT - 1, temp);				// Set bit phải nhất cho bit trái nhất
+		*this = *this >> 1;												// Dịch phải dãy bit sang 1 bit
+		BUtils::setBit(this->data, BIT_IN_QINT - 1, temp);				// Set bit vừa lưu cho bit thứ 127 của dãy
+		a--;
+	}
 
 	return *this;
 }
