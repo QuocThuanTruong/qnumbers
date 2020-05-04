@@ -597,8 +597,9 @@ QInt QInt::operator<<(const int& offset)
  *	@param	 none
  *	@return	 QInt		Lưu kết quả sau khi thực hiện xoay trái dãy bit
  */
-QInt& QInt::rol()
+QInt& QInt::rol(const int& offset)
 {
+	//them vong lap
 	bool temp = BUtils::getBit(this->data, BIT_IN_QINT - 1);		// Lưu lại bit trái nhất
 
 	*this = *this << 1;												// Dịch trái dãy bit sang 1 bit
@@ -613,7 +614,7 @@ QInt& QInt::rol()
  *	@param	 none 
  *	@return	 QInt		Kết quả sau khi thực hiện phép xoay phải
  */
-QInt& QInt::ror()
+QInt& QInt::ror(const int& offset)
 {
 	bool temp = BUtils::getBit(this->data, 0);						// Lưu lại bit phải nhất
 

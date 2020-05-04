@@ -56,7 +56,7 @@ public:
 
 	QInt operator >> (const int& offset);
 	QInt operator << (const int& offset);
-	QInt& rol();
-	QInt& ror();
+	QInt& rol(const int& offset);
+	QInt& ror(const int& offset);
 };
 #endif // !_QINT_H
