@@ -180,18 +180,19 @@ void processQInt(string strIn)
 		else if (opr == "rol")
 		{
 			int num = stoi(termB);
-			A.rol(num).printQInt(base2);
+			(A.rol(num)).printQInt(base2);
 		}
 		else if (opr == "ror")
 		{
 			int num = stoi(termB);
-			A.ror(num).printQInt(base2);
+			(A.ror(num)).printQInt(base2);
 		}
 	}
 	catch (const char* msg)
 	{
 		cout << msg;
 	}
+	cout << endl;
 }
 
 /**
@@ -225,6 +226,7 @@ void processQFloat(string strIn)
 	{
 		cout << msg;
 	}
+	cout << endl;
 }
 
 int main(int argc, char* argv[])
