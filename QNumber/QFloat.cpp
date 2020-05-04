@@ -103,6 +103,7 @@ QFloat QFloat::convertDecToQFloat(const string& src)
 	{
 		if (srcDec[0] == '-')										// Xét dấu, nếu âm thì setbit dấu = 1 là bit thứ 127 và bỏ đi
 		{
+			BUtils::setBit(result.data, BIT_IN_QFLOAT - 1);
 			srcDec.erase(0, 1);
 		}
 	}
