@@ -1,3 +1,4 @@
+﻿#define _CRT_SECURE_NO_WARNINGS
 #include "IntegerStringUtils.h"
 #include "BitUtils.h"
 #include "QFloat.h"
@@ -13,8 +14,8 @@
  */
 void processQInt(string strIn)
 {
-	vector<string> unaryOperator = { "~","rol","ror" }; // toán tử 1 ngôi
-	vector<string> binaryOperator = { "+","-","*","/","<",">","==","<=",">=","=","&","|","^","<<",">>" }; // toán tử 2 ngôi
+	vector<string> unaryOperator = { "~" }; // toán tử 1 ngôi
+	vector<string> binaryOperator = { "+","-","*","/","<",">","==","<=",">=","=","&","|","^","<<",">>","rol","ror" }; // toán tử 2 ngôi
 
 	int operatorType = 0;  // số ngôi
 	int paraCount = 1; // số lượng tham số
@@ -97,19 +98,13 @@ void processQInt(string strIn)
 		{
 			A.printQInt(base2);
 		}
+
 		// Toán tử 1 ngôi
 		else if (opr == "~")
 		{
 			(~A).printQInt(base2);
 		}
-		else if (opr == "rol")
-		{
-			A.rol().printQInt(base2);
-		}
-		else if (opr == "ror")
-		{
-			A.ror().printQInt(base2);
-		}
+
 		// Toán tử 2 ngôi
 		else if (opr == "+")
 		{
@@ -182,11 +177,22 @@ void processQInt(string strIn)
 			int num = stoi(termB);
 			(A >> num).printQInt(base2);
 		}
+		else if (opr == "rol")
+		{
+			int num = stoi(termB);
+			(A.rol(num)).printQInt(base2);
+		}
+		else if (opr == "ror")
+		{
+			int num = stoi(termB);
+			(A.ror(num)).printQInt(base2);
+		}
 	}
 	catch (const char* msg)
 	{
 		cout << msg;
 	}
+	cout << endl;
 }
 
 /**
@@ -220,6 +226,7 @@ void processQFloat(string strIn)
 	{
 		cout << msg;
 	}
+	cout << endl;
 }
 
 int main(int argc, char* argv[])
