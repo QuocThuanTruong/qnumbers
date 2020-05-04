@@ -1,6 +1,4 @@
-﻿<<<<<<<<< Temporary merge branch 1
-﻿#define _CRT_SECURE_NO_WARNINGS
-#include "IntegerStringUtils.h"
+﻿#include "IntegerStringUtils.h"
 #include "BitUtils.h"
 #include "QFloat.h"
 #include "QInt.h"
@@ -256,19 +254,3 @@ int main(int argc, char* argv[])
 	}
 	return 0;
 }
-=========
-﻿////#include "IntegerStringUtils.h"
-////#include "BitUtils.h"
-////#include "QFloat.h"
-////#include "QInt.h"
-////
-////int main(int argc, char* argv[])
-////{
-////	//TODO: implements here
-////	//Nếu chạy  ở đây thì qua bên Test.cpp bấm Ctrl A, xong bấm Ctrl K rồi bấm Ctrl C --> comment nó lại
-////	//Unlock comment: Ctrl A , Ctrl K, Ctrl U
-////	//Chạy ở đây sẽ có video hướng dẫn
-////
-////	return 0;
-////}
->>>>>>>>> Temporary merge branch 2
