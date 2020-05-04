@@ -13,6 +13,7 @@ QInt::QInt()
 	}
 }
 
+
 /**
  *	Constructor QInt - Hàm khởi tạo QInt từ chuỗi số truyền vào với cơ số thích hợp
  *	@param	 const string&		Chuỗi số cần chuyển thành QInt
@@ -36,6 +37,7 @@ QInt::QInt(const string& src, const int base)
 
 }
 
+
 /**
  *	Destructor QInt - Hàm hủy mặc định
  *	@param	 none
@@ -44,6 +46,7 @@ QInt::QInt(const string& src, const int base)
 QInt::~QInt()
 {
 }
+
 
 /**
  *	Hàm scanQInt - Hàm nhập QInt từ chuỗi với hệ cơ số tương ứng
@@ -67,6 +70,7 @@ void QInt::scanQInt(const string& src, const int base)
 	}
 }
 
+
 /**
  *	Hàm printQInt - Hàm nhập xuất QInt theo hệ cơ số tương ứng
  *	@param	 const int			Hệ cơ số cần xuất
@@ -87,6 +91,7 @@ void QInt::printQInt(const int base)
 		break;
 	}
 }
+
 
 /**
  *	Hàm convertQIntToBin - Hàm chuyển QInt sang chuỗi nhị phân
@@ -109,6 +114,7 @@ string QInt::convertQIntToBin(QInt src)
 
 	return result;
 }
+
 
 /**
  *	Hàm convertQIntToDec - Hàm chuyển QInt sang chuỗi thập phân
@@ -141,6 +147,7 @@ string QInt::convertQIntToDec(QInt src)
 	return result;
 }
 
+
 /**
  *	Hàm convertQIntToHex - Hàm chuyển QInt sang chuỗi thập lục phân
  *	@param	 QInt		Số QInt cần chuyển
@@ -150,6 +157,7 @@ string QInt::convertQIntToHex(QInt src)
 {
 	return SUtils::convertBinToHex(QInt::convertQIntToBin(src));	// chuyển QInt -> Bin -> Hex
 }
+
 
 /**
  *	Hàm convertBinToQInt - Hàm chuyển chuỗi nhị phân sang QInt
@@ -171,6 +179,7 @@ QInt QInt::convertBinToQInt(const string& src)
 	return result;
 }
 
+
 /**
  *	Hàm convertDecToQInt - Hàm chuyển chuỗi thập phân sang QInt
  *	@param	 const string&		Chuỗi thập phân cần chuyển
@@ -180,6 +189,7 @@ QInt QInt::convertDecToQInt(const string& src)
 {
 	return QInt::convertBinToQInt(SUtils::convertDecToBin(src));		// Dec -> Bin -> QInt
 }
+
 
 /**
  *	Hàm convertHexToQInt - Hàm chuyển chuỗi thập lục phân sang QInt
@@ -191,6 +201,7 @@ QInt QInt::convertHexToQInt(const string& src)
 	return QInt::convertBinToQInt(SUtils::convertHexToBin(src));		// Hex -> Bin -> QInt
 }
 
+
 /**
  *	Hàm isNegative - Hàm kiểm tra QInt có âm hay không
  *	@param	 none
@@ -200,6 +211,7 @@ bool QInt::isNegative()
 {
 	return BUtils::getBit(this->data, BIT_IN_QINT - 1);					// Lấy bit trái nhất nếu bằng '1' là âm và ngược lại
 }
+
 
 /**
  *	Hàm equalZero - Hàm kiểm tra QInt bằng 0 hay không
@@ -219,6 +231,7 @@ bool QInt::equalZero()
 	return true;
 }
 
+
 /**
  *	Hàm convertToTwoComplement - Hàm chuyển QInt sang bù 2
  *	@param	 QInt				Số cần chuyển
@@ -229,6 +242,7 @@ QInt QInt::convertToTwoComplement(QInt src)
 	return ~src + QInt("1", 10);
 }
 
+
 /**
  *	Hàm inverseTwoComplement - Hàm đảo dạng bù 2 của QInt
  *	@param	 QInt				Số cần đảo
@@ -238,6 +252,7 @@ QInt QInt::inverseTwoComplement(QInt src)
 {
 	return ~(src - QInt("1", 10));
 }
+
 
 /**
  *	operator+ - Toán tử cộng 2 số QInt
@@ -264,6 +279,7 @@ QInt QInt::operator+(const QInt& other)
 	return result;
 }
 
+
 /**
  *	operator- - Toán tử trừ 2 số QInt
  *	@param	 const QInt&    Số bị trừ       
@@ -273,6 +289,8 @@ QInt QInt::operator-(const QInt& other)
 {
 	return *this + QInt::convertToTwoComplement(other);			// Cộng cho bù 2
 }
+
+
 /**
  *	operator* - Toán tử nhân số QInt
  *	@param	 const QInt&    Thừa số nhân
@@ -316,6 +334,8 @@ QInt QInt::operator*(const QInt& other)
 
 	return result;
 }
+
+
 /**
  *	operator/ - Toán tử chia 2 số QInt
  *	@param	 const QInt&    Số chia
@@ -385,6 +405,7 @@ QInt QInt::operator/(const QInt& other)
 	return result;
 }
 
+
 /**
  *	operator> - Toán tử so sánh lớn hơn
  *	@param	 const QInt&      Số cần so sánh
@@ -400,6 +421,7 @@ bool QInt::operator>(const QInt& other)
 	return true;
 }
 
+
 /**
  *	operator< - Toán tử so sánh bé hơn
  *	@param	 const QInt&      Số cần so sánh
@@ -414,6 +436,7 @@ bool QInt::operator<(const QInt& other)
 	
 	return false;
 } 
+
 
 /**
  *	operator== - Toán tử so sánh bằng
@@ -432,6 +455,7 @@ bool QInt::operator==(const QInt& other)
 	return true;
 }
 
+
 /**
  *	operator!= - Toán tử so sánh khác
  *	@param	 const QInt&		Số cần so sánh
@@ -441,6 +465,7 @@ bool QInt::operator!=(const QInt& other)
 {
 	return ((*this) == other) ? false : true;
 }
+
 
 /**
  *	operator>=  - Toán tử so sánh lớn hơn hoặc bằng
@@ -452,6 +477,7 @@ bool QInt::operator>=(const QInt& other)
 	return ((*this) < other) ? false : true;
 }
 
+
 /**
  *	operator<=  - Toán tử so sánh nhỏ hơn hoặc bằng
  *	@param	 const QInt&       Số cần so sánh
@@ -461,6 +487,7 @@ bool QInt::operator<=(const QInt& other)
 {
 	return ((*this) > other) ? false : true;
 }
+
 
 /**
  *	operator= - Toán tử gán
@@ -481,6 +508,7 @@ QInt& QInt::operator=(const QInt& other)
 
 	return *this;
 }
+
 
 /**
  *	operator& - Toán tử AND
@@ -519,7 +547,7 @@ QInt QInt::operator|(const QInt& other)
 
 
 /**
- *	operater^ - Toán tử XOR 
+ *	operator^ - Toán tử XOR 
  *	@param	 const QInt&		Số QInt truyền vào để thực hiện phép ^
  *	@return	 QInt				Lưu lại kết quả sau khi thực hiện phép ^
  */
@@ -597,12 +625,19 @@ QInt QInt::operator<<(const int& offset)
  *	@param	 none
  *	@return	 QInt		Lưu kết quả sau khi thực hiện xoay trái dãy bit
  */
-QInt& QInt::rol()
+QInt& QInt::rol(const int& offset)
 {
-	bool temp = BUtils::getBit(this->data, BIT_IN_QINT - 1);		// Lưu lại bit trái nhất
+	int count = offset;
 
-	*this = *this << 1;												// Dịch trái dãy bit sang 1 bit
-	BUtils::setBit(this->data, 0, temp);							// Set bit trái nhất cho bit thứ 0 của dãy
+	while (count != 0)													// Xoay từng bit
+	{
+		bool temp = BUtils::getBit(this->data, BIT_IN_QINT - 1);		// Lưu lại bit xoay 
+
+		*this = *this << 1;												// Dịch trái dãy bit sang 1 bit
+		BUtils::setBit(this->data, 0, temp);							// Set bit vừa lưu cho bit thứ 0 của dãy
+
+		count--;
+	}
 
 	return *this;
 }
@@ -613,12 +648,19 @@ QInt& QInt::rol()
  *	@param	 none 
  *	@return	 QInt		Kết quả sau khi thực hiện phép xoay phải
  */
-QInt& QInt::ror()
+QInt& QInt::ror(const int& offset)
 {
-	bool temp = BUtils::getBit(this->data, 0);						// Lưu lại bit phải nhất
+	int  count = offset;
 
-	*this = *this >> 1;												// Dịch phải dãy bit sang 1 bit
-	BUtils::setBit(this->data, BIT_IN_QINT - 1, temp);				// Set bit phải nhất cho bit trái nhất
+	while (count != 0)													// Xoay từng bit
+	{
+		bool temp = BUtils::getBit(this->data, 0);						// Lưu lại bit xoay phải
+
+		*this = *this >> 1;												// Dịch phải dãy bit sang 1 bit
+		BUtils::setBit(this->data, BIT_IN_QINT - 1, temp);				// Set bit vừa lưu cho bit thứ 127 của dãy
+
+		count--;
+	}
 
 	return *this;
 }

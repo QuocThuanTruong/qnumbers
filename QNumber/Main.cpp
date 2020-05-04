@@ -1,4 +1,3 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
 #include "IntegerStringUtils.h"
 #include "BitUtils.h"
 #include "QFloat.h"
