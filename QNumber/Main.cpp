@@ -192,7 +192,6 @@ void processQInt(string strIn)
 	{
 		cout << msg;
 	}
-	cout << endl;
 }
 
 /**
@@ -226,7 +225,6 @@ void processQFloat(string strIn)
 	{
 		cout << msg;
 	}
-	cout << endl;
 }
 
 int main(int argc, char* argv[])
