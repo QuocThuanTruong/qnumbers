@@ -293,8 +293,6 @@ string QFloat::convertQFloatToDec(QFloat src)
 		fracPartBin += '0';
 	}
 
-	cout << "int " << intPartBin << endl; //for test
-	cout << "frac " << fracPartBin << endl; //for test
 	intPartDec = QInt::convertQIntToDec(QInt(intPartBin, 2));							// Chuyển phần nguyên về thập phân
 
 	posOfLastOne = fracPartBin.find_last_of('1');										// Tìm số 1 cuối cùng ở phần phân số để chuyển về thập phân
