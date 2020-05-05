@@ -1,6 +1,5 @@
 ﻿#include "QFloat.h"
 #include "QInt.h"
-#include <vector>
 #include <sstream>
 
 #pragma warning(disable : 4996)
