@@ -1,191 +1,182 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
-#include "IntegerStringUtils.h"
-#include "BitUtils.h"
-#include "QFloat.h"
+﻿#include "QFloat.h"
 #include "QInt.h"
-#include <vector>
 #include <sstream>
 
+#pragma warning(disable : 4996)
 
 /**
  *	Hàm processQInt - Hàm xử lý số QInt
  *	@param	  string 		Chuỗi cần xử lý
- *	@return	 none
+ *	@return	  none
  */
-void processQInt(string strIn)
+void processQInt(string srcQInt)
 {
-	vector<string> unaryOperator = { "~" }; // toán tử 1 ngôi
-	vector<string> binaryOperator = { "+","-","*","/","<",">","==","<=",">=","=","&","|","^","<<",">>","rol","ror" }; // toán tử 2 ngôi
+	string p1;
+	string p2;
+	string firstNum;
+	string secondNum;
+	string _operator = "";
+	stringstream lineProcessing;
 
-	int operatorType = 0;  // số ngôi
-	int paraCount = 1; // số lượng tham số
+	QInt firstQNum;
+	QInt secondQNum;
+	int base_1;
+	int base_2;
 
-	// đếm số lượng tham số
-	for (int i = 0; i < strIn.size(); i++)
+	const int uOpSize = 1;
+	string uOperator[] = { "~" };																								// Toán tử 1 ngôi
+	const int bOpSize = 17;
+	string bOperator[] = { "+", "-", "*", "/", "<", ">", "==", "<=", ">=", "=", "&", "|", "^", "<<", ">>", "rol", "ror" };		// Toán tử 2 ngôi
+
+	int operatorType = 0;								// Loại toán tử
+	int paramCount = 1;									// Số lượng tham số
+
+	for (int i = 0; i < srcQInt.size(); i++)			// Đếm số lượng tham số dựa vào đếm dấu space
 	{
-		if (strIn[i] == ' ')
+		if (srcQInt[i] == ' ')
 		{
-			paraCount++;
+			paramCount++;
 		}
 	}
 
-	// Tìm toán tử 1 ngôi
-	for (int i = 0; i < unaryOperator.size(); i++)
+	for (int i = 0; i < uOpSize; i++)					// Tìm toán tử 1 ngôi có trong mảng quy định
 	{
-		if (strIn.find(unaryOperator[i], 0) != string::npos)
+		if (srcQInt.find(uOperator[i], 0) != string::npos)
 		{
 			operatorType = 1;
 			break;
 		}
 	}
 
-	// Tìm toán tử 2 ngôi
-	for (int i = 0; i < binaryOperator.size(); i++)
+	for (int i = 0; i < bOpSize; i++)					// Tìm toán tử 2 ngôi có trong mảng quy định
 	{
-		if (strIn.find(binaryOperator[i], 0) != string::npos)
+		if (srcQInt.find(bOperator[i], 0) != string::npos)
 		{
 			operatorType = 2;
 			break;
 		}
+	}													// Nếu không có toán tử thì mặc định là 0
+
+	lineProcessing << srcQInt;							// Đọc dữ liệu vào bộ đệm
+
+	lineProcessing >> p1;								// Lấy chỉ thị p1 
+
+	if (paramCount - operatorType == 3)					// Lấy chỉ thị p2 nếu có
+	{													// VD: 2 10 1011 -> paramCount(3) - operatorType(0) = 3 -> Có p2
+		lineProcessing >> p2;							// VD: 
 	}
-	// Nếu không có toán tử thì mặc định là 0
-
-	string p1, p2, opr, termA, termB;
-
-	stringstream ssIn;
-	ssIn << strIn;
-
-	// lấy ra chỉ thị 1 ( cơ số 1 )
-	ssIn >> p1;
-
-	// Kiểm tra có chứa chỉ thị p2 không
-	if (paraCount - operatorType == 3)
+	else												// Không thì cho p2 và p1 là như nhau tức là 2 nhập vào hệ cơ số X và xuất ra hệ cơ số X
 	{
-		// có thì lấy ra
-		ssIn >> p2;
-	}
-	else
-	{
-		// không có thì cho chỉ thị 2 ( cơ số 2 ) = chỉ thị 1
 		p2 = p1;
 	}
 
-	// kiểm tra loại toán tử
-	opr = ""; // để lưu loại toán tử
-	switch (operatorType)
+	switch (operatorType)								// Kiểm tra loại toán tử
 	{
-	case 0: // không có toán tử 
-		ssIn >> termA;
+	case 0:												// Không có toán tử -> Lấy số đầu để chuyển cơ số
+		lineProcessing >> firstNum;
 		break;
-	case 1: // toán tử 1 ngôi
-		ssIn >> opr >> termA;
+	case 1:												// Toán tử 1 ngôi -> lấy toán tử rồi đến số cần tính
+		lineProcessing >> _operator >> firstNum;
 		break;
-	case 2: // toán tử 2 ngôi
-		ssIn >> termA >> opr >> termB;
+	case 2:												// Toán tử 2 ngôi -> lấy số đầu > toán tử > số sau
+		lineProcessing >> firstNum >> _operator >> secondNum;
 		break;
 	}
 
-	// Thực hiện các phép tính
-	QInt A, B;
-	int base1 = stoi(p1);    //	chuyển các chỉ thị ( cơ số ) về int
-	int base2 = stoi(p2);
+	 base_1 = stoi(p1);									// Chuyển đổi p1, p2 sang số nguyên
+	 base_2 = stoi(p2);
 
 	try
 	{
-		A.scanQInt(termA, base1);
-		// Toán tử không ngôi ( chuyển đổi cơ số )
-		if (opr == "")
+		firstQNum.scanQInt(firstNum, base_1);
+		
+		if (_operator == "")							// Chuyển đổi cơ số và xuất ra
 		{
-			A.printQInt(base2);
+			firstQNum.printQInt(base_2);
 		}
-
-		// Toán tử 1 ngôi
-		else if (opr == "~")
+		else if (_operator == "~")						// Tính NOT bit và xuất ra
 		{
-			(~A).printQInt(base2);
+			(~firstQNum).printQInt(base_2);
 		}
-
-		// Toán tử 2 ngôi
-		else if (opr == "+")
+		else if (_operator == "+")						// Tính + và xuất kết quả
 		{
-			B.scanQInt(termB, base1);
-			(A + B).printQInt(base2);
+			secondQNum.scanQInt(secondNum, base_1);
+			(firstQNum + secondQNum).printQInt(base_2);
 		}
-		else if (opr == "-")
+		else if (_operator == "-")						// Tính - và xuất kết quả
 		{
-			B.scanQInt(termB, base1);
-			(A - B).printQInt(base2);
+			secondQNum.scanQInt(secondNum, base_1);
+			(firstQNum - secondQNum).printQInt(base_2);
 		}
-		else if (opr == "*")
+		else if (_operator == "*")						// Tính * và xuất kết quả
 		{
-			B.scanQInt(termB, base1);
-			(A * B).printQInt(base2);
+			secondQNum.scanQInt(secondNum, base_1);
+			(firstQNum * secondQNum).printQInt(base_2);
 		}
-		else if (opr == "/")
+		else if (_operator == "/")						// Tính / và xuất kết quả
 		{
-			B.scanQInt(termB, base1);
-			(A / B).printQInt(base2);
+			secondQNum.scanQInt(secondNum, base_1);
+			(firstQNum / secondQNum).printQInt(base_2);
 		}
-		else if (opr == "<")
+		else if (_operator == "<")						// So sánh < và xuất kết quả
 		{
-			B.scanQInt(termB, base1);
-			cout << ((A < B) ? "TRUE" : "FALSE");
+			secondQNum.scanQInt(secondNum, base_1);
+			cout << ((firstQNum < secondQNum) ? "TRUE" : "FALSE");
 		}
-		else if (opr == ">")
+		else if (_operator == ">")						// So sánh > và xuất kết quả
 		{
-			B.scanQInt(termB, base1);
-			cout << ((A > B) ? "TRUE" : "FALSE");
+			secondQNum.scanQInt(secondNum, base_1);
+			cout << ((firstQNum > secondQNum) ? "TRUE" : "FALSE");
 		}
-		else if (opr == "<=")
+		else if (_operator == "<=")						// So sánh <= và xuất kết quả
 		{
-			B.scanQInt(termB, base1);
-			cout << ((A <= B) ? "TRUE" : "FALSE");
+			secondQNum.scanQInt(secondNum, base_1);
+			cout << ((firstQNum <= secondQNum) ? "TRUE" : "FALSE");
 		}
-		else if (opr == ">=")
+		else if (_operator == ">=")						// So sánh >= và xuất kết quả
 		{
-			B.scanQInt(termB, base1);
-			cout << ((A >= B) ? "TRUE" : "FALSE");
+			secondQNum.scanQInt(secondNum, base_1);
+			cout << ((firstQNum >= secondQNum) ? "TRUE" : "FALSE");
 		}
-		else if (opr == "==")
+		else if (_operator == "==")						// So sánh == và xuất kết quả
 		{
-			B.scanQInt(termB, base1);
-			cout << ((A == B) ? "TRUE" : "FALSE");
+			secondQNum.scanQInt(secondNum, base_1);
+			cout << ((firstQNum == secondQNum) ? "TRUE" : "FALSE");
 		}
-
-		else if (opr == "&")
+		else if (_operator == "&")						// Tính AND bit và xuất ra kết quả
 		{
-			B.scanQInt(termB, base1);
-			(A & B).printQInt(base2);
+			secondQNum.scanQInt(secondNum, base_1);
+			(firstQNum & secondQNum).printQInt(base_2);
 		}
-		else if (opr == "|")
+		else if (_operator == "|")						// Tính OR bit và xuất ra kết quả
 		{
-			B.scanQInt(termB, base1);
-			(A | B).printQInt(base2);
+			secondQNum.scanQInt(secondNum, base_1);
+			(firstQNum | secondQNum).printQInt(base_2);
 		}
-		else if (opr == "^")
+		else if (_operator == "^")						// Tính XOR bit và xuất ra kết quả
 		{
-			B.scanQInt(termB, base1);
-			(A ^ B).printQInt(base2);
+			secondQNum.scanQInt(secondNum, base_1);
+			(firstQNum ^ secondQNum).printQInt(base_2);
 		}
-		else if (opr == "<<")
+		else if (_operator == "<<")						// Tính SHL bit và xuất ra kết quả
 		{
-			int num = stoi(termB);
-			(A << num).printQInt(base2);
+			int num = stoi(secondNum);
+			(firstQNum << num).printQInt(base_2);
 		}
-		else if (opr == ">>")
+		else if (_operator == ">>")						// Tính SHR bit và xuất ra kết quả
 		{
-			int num = stoi(termB);
-			(A >> num).printQInt(base2);
+			int num = stoi(secondNum);
+			(firstQNum >> num).printQInt(base_2);
 		}
-		else if (opr == "rol")
+		else if (_operator == "rol")					// Tính ROL bit và xuất ra kết quả
 		{
-			int num = stoi(termB);
-			(A.rol(num)).printQInt(base2);
+			int num = stoi(secondNum);
+			(firstQNum.rol(num)).printQInt(base_2);
 		}
-		else if (opr == "ror")
+		else if (_operator == "ror")					// Tính ROR bit và xuất ra kết quả
 		{
-			int num = stoi(termB);
-			(A.ror(num)).printQInt(base2);
+			int num = stoi(secondNum);
+			(firstQNum.ror(num)).printQInt(base_2);
 		}
 	}
 	catch (const char* msg)
@@ -197,29 +188,32 @@ void processQInt(string strIn)
 /**
  *	Hàm processQFloat - Hàm xử lý số QFloat
  *	@param	  string 		Chuỗi cần xử lý
- *	@return	 none
+ *	@return	  none
  */
-void processQFloat(string strIn)
+void processQFloat(string srcQFloat)
 {
 
-	string p1, p2, strP; // chỉ thị p1, p2 số cần xử lý ( dạng string )
-
+	string p1;
+	string p2;
+	string convertedNum; 
 	stringstream ssIn;
 
-	ssIn << strIn;
+	QFloat destNum;
 
-	ssIn >> p1 >> p2 >> strP; // lấy ra các giá trị
+	int base_1;
+	int base_2;
 
-	// chuyển các chỉ thị về số nguyên
-	int base1 = stoi(p1);
-	int base2 = stoi(p2);
+	ssIn << srcQFloat;								// Lấy dữ liệu cần xử lí
 
-	QFloat A;
+	ssIn >> p1 >> p2 >> convertedNum;				// Tách 3 thành phần 
+
+	base_1 = stoi(p1);								// Chuyển p1, p2 sang số nguyên
+	base_2 = stoi(p2);
 
 	try
 	{
-		A.scanQFloat(strP, base1);
-		A.printQFloat(base2);
+		destNum.scanQFloat(convertedNum, base_1);	// Chuyển cơ số và xuất ra
+		destNum.printQFloat(base_2);
 	}
 	catch (const char* msg)
 	{
@@ -229,33 +223,38 @@ void processQFloat(string strIn)
 
 int main(int argc, char* argv[])
 {
-	string inPath, outPath;
+	string inFile;
+	string outFile;
+
 	if (argc != 3)
 	{
-		cout << "Syntax error!";
+		cout << "Syntax must be <*.exe> <input file> <output file>";
 		return 0;
 	}
 	else
 	{
-		inPath = string(argv[1]);
-		outPath = string(argv[2]);
+		inFile = string(argv[1]);								// Lấy đường dẫn file in và out
+		outFile = string(argv[2]);
 
-		freopen(inPath.c_str(), "r", stdin);
-		freopen(outPath.c_str(), "w", stdout);
+		freopen(inFile.c_str(), "r", stdin);					// Mở file thực hiện đọc ghi
+		freopen(outFile.c_str(), "w", stdout);
 
-		/*while (!cin.eof())
+		/*while (!cin.eof())									// Xử lí
 		{
-			string strIn;
-			getline(cin, strIn);
-			processQInt(strIn);
+			string srcQInt;
+			getline(cin, srcQInt);
+			processQInt(srcQInt);
 		}*/
 
-		while (!cin.eof())
+		while (!cin.eof())									
 		{
 			string strIn;
 			getline(cin, strIn);
 			processQFloat(strIn);
 		}
+
+		cout << "DONE!" << endl;
 	}
+
 	return 0;
 }
