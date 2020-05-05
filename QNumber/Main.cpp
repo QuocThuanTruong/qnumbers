@@ -253,7 +253,7 @@ int main(int argc, char* argv[])
 			processQFloat(strIn);
 		}
 
-		cout << "DONE!" << endl;
+		fcloseall();
 	}
 
 	return 0;
