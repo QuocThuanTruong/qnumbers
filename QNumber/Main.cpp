@@ -31,7 +31,7 @@ void processQInt(string srcQInt)
 	int operatorType = 0;								// Loại toán tử
 	int paramCount = 1;									// Số lượng tham số
 
-	for (int i = 0; i < srcQInt.size(); i++)			// đếm số lượng tham số dựa vào đếm dấu space
+	for (int i = 0; i < srcQInt.size(); i++)			// Đếm số lượng tham số dựa vào đếm dấu space
 	{
 		if (srcQInt[i] == ' ')
 		{
@@ -39,7 +39,7 @@ void processQInt(string srcQInt)
 		}
 	}
 
-	for (int i = 0; i < uOpSize; i++)					// Tìm toán tử 1 ngôi
+	for (int i = 0; i < uOpSize; i++)					// Tìm toán tử 1 ngôi có trong mảng quy định
 	{
 		if (srcQInt.find(uOperator[i], 0) != string::npos)
 		{
@@ -48,7 +48,7 @@ void processQInt(string srcQInt)
 		}
 	}
 
-	for (int i = 0; i < bOpSize; i++)					// Tìm toán tử 2 ngôi
+	for (int i = 0; i < bOpSize; i++)					// Tìm toán tử 2 ngôi có trong mảng quy định
 	{
 		if (srcQInt.find(bOperator[i], 0) != string::npos)
 		{
