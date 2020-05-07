@@ -121,27 +121,27 @@ void executeQInt(string srcQInt)
 		else if (_operator == "<")						// So sánh < và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum < secondQNum) ? "TRUE" : "FALSE");
+			cout << ((firstQNum < secondQNum) ? "true" : "false");
 		}
 		else if (_operator == ">")						// So sánh > và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum > secondQNum) ? "TRUE" : "FALSE");
+			cout << ((firstQNum > secondQNum) ? "true" : "false");
 		}
 		else if (_operator == "<=")						// So sánh <= và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum <= secondQNum) ? "TRUE" : "FALSE");
+			cout << ((firstQNum <= secondQNum) ? "true" : "false");
 		}
 		else if (_operator == ">=")						// So sánh >= và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum >= secondQNum) ? "TRUE" : "FALSE");
+			cout << ((firstQNum >= secondQNum) ? "true" : "false");
 		}
 		else if (_operator == "==")						// So sánh == và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum == secondQNum) ? "TRUE" : "FALSE");
+			cout << ((firstQNum == secondQNum) ? "true" : "false");
 		}
 		else if (_operator == "&")						// Tính AND bit và xuất ra kết quả
 		{
