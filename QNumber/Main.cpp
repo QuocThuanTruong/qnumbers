@@ -48,12 +48,17 @@ void executeQInt(string srcQInt)
 		}
 	}
 
-	for (int i = 0; i < bOpSize; i++)					// Tìm toán tử 2 ngôi có trong mảng quy định
+	for (int i = 0; i < bOpSize; i++)					// Tìm toán tử 2 ngôi có trong mảng quy định toán tử nằm giữ 2 khoảng trắng VD: -10 + 30 -> operator +
 	{
-		if (srcQInt.find(bOperator[i], 0) != string::npos)
+		int pos = srcQInt.find(bOperator[i], 0);
+
+		if (pos != string::npos)
 		{
-			operatorType = 2;
-			break;
+			if (srcQInt[pos - 1] == ' ' && srcQInt[pos + 1] == ' ')
+			{
+				operatorType = 2;
+				break;
+			}
 		}
 	}													// Nếu không có toán tử thì mặc định là 0
 
