@@ -38,8 +38,8 @@ void executeQInt(string srcQInt)
 			paramCount++;
 		}
 	}
-
-	for (int i = 0; i < uOpSize; i++)					// Tìm toán tử 1 ngôi có trong mảng quy định
+	
+	for (int i = 0; i < uOpSize; i++)					// Tìm toán tử 1 ngôi có trong mảng quy định (sai chỗ này) số âm nó vẫn quy là toán tử ?
 	{
 		if (srcQInt.find(uOperator[i], 0) != string::npos)
 		{
@@ -121,27 +121,27 @@ void executeQInt(string srcQInt)
 		else if (_operator == "<")						// So sánh < và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum < secondQNum) ? "true" : "false");
+			cout << ((firstQNum < secondQNum) ? "true" : "false") << endl;
 		}
 		else if (_operator == ">")						// So sánh > và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum > secondQNum) ? "true" : "false");
+			cout << ((firstQNum > secondQNum) ? "true" : "false") << endl;
 		}
 		else if (_operator == "<=")						// So sánh <= và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum <= secondQNum) ? "true" : "false");
+			cout << ((firstQNum <= secondQNum) ? "true" : "false") << endl;
 		}
 		else if (_operator == ">=")						// So sánh >= và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum >= secondQNum) ? "true" : "false");
+			cout << ((firstQNum >= secondQNum) ? "true" : "false") << endl;
 		}
 		else if (_operator == "==")						// So sánh == và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum == secondQNum) ? "true" : "false");
+			cout << ((firstQNum == secondQNum) ? "true" : "false") << endl;
 		}
 		else if (_operator == "&")						// Tính AND bit và xuất ra kết quả
 		{
@@ -238,12 +238,14 @@ int main(int argc, char* argv[])
 		outFile = string(argv[2]);
 		type = stoi(argv[3]);
 
-		freopen(inFile.c_str(), "r", stdin);					// Mở file thực hiện đọc ghi
-		freopen(outFile.c_str(), "w", stdout);
+		freopen(inFile.c_str(), "r", stdin);					// Mở file thực hiện đọc ghi bằng cách đưa dữ liệu lên bộ đệm nhập xuất chuẩn (cin, cout) rồi xử lí
+		freopen(outFile.c_str(), "w", stdout);					// Vì các hàm print QInt QFloat là xuất ra màn hình nên ta điều hướng bộ đệm xuất chuẩn vào file
+
+		cin.seekg(SEEK_SET);									// Đưa con trỏ đọc bộ đệm lên đầu
 
 		if (type == 1)
 		{
-			while (!cin.eof())										// Xử lí theo loại 1: Số nguyên, 2 số thực
+			while (!cin.eof())									// Xử lí theo loại 1: Số nguyên, 2 số thực
 			{
 				string srcQInt;
 				getline(cin, srcQInt);
