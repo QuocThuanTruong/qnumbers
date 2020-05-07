@@ -121,27 +121,27 @@ void executeQInt(string srcQInt)
 		else if (_operator == "<")						// So sánh < và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum < secondQNum) ? "true" : "false");
+			cout << ((firstQNum < secondQNum) ? "true" : "false") << endl;
 		}
 		else if (_operator == ">")						// So sánh > và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum > secondQNum) ? "true" : "false");
+			cout << ((firstQNum > secondQNum) ? "true" : "false") << endl;
 		}
 		else if (_operator == "<=")						// So sánh <= và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum <= secondQNum) ? "true" : "false");
+			cout << ((firstQNum <= secondQNum) ? "true" : "false") << endl;
 		}
 		else if (_operator == ">=")						// So sánh >= và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum >= secondQNum) ? "true" : "false");
+			cout << ((firstQNum >= secondQNum) ? "true" : "false") << endl;
 		}
 		else if (_operator == "==")						// So sánh == và xuất kết quả
 		{
 			secondQNum.scanQInt(secondNum, base_1);
-			cout << ((firstQNum == secondQNum) ? "true" : "false");
+			cout << ((firstQNum == secondQNum) ? "true" : "false") << endl;
 		}
 		else if (_operator == "&")						// Tính AND bit và xuất ra kết quả
 		{
@@ -240,6 +240,8 @@ int main(int argc, char* argv[])
 
 		freopen(inFile.c_str(), "r", stdin);					// Mở file thực hiện đọc ghi bằng cách đưa dữ liệu lên bộ đệm nhập xuất chuẩn (cin, cout) rồi xử lí
 		freopen(outFile.c_str(), "w", stdout);					// Vì các hàm print QInt QFloat là xuất ra màn hình nên ta điều hướng bộ đệm xuất chuẩn vào file
+
+		cin.seekg(SEEK_SET);									// Đưa con trỏ đọc bộ đệm lên đầu
 
 		if (type == 1)
 		{
