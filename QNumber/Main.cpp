@@ -38,8 +38,8 @@ void executeQInt(string srcQInt)
 			paramCount++;
 		}
 	}
-
-	for (int i = 0; i < uOpSize; i++)					// Tìm toán tử 1 ngôi có trong mảng quy định
+	
+	for (int i = 0; i < uOpSize; i++)					// Tìm toán tử 1 ngôi có trong mảng quy định (sai chỗ này) số âm nó vẫn quy là toán tử ?
 	{
 		if (srcQInt.find(uOperator[i], 0) != string::npos)
 		{
