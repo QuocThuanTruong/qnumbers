@@ -14,9 +14,10 @@
 //	a.printQFloat(10);
 //	a.printQFloat(2);*/
 //
-//	QFloat a;
-//	a.scanQFloat("0.3", 10);
-//	a.printQFloat(2);
+//	QInt a;
+//	a.scanQInt("8", 10);
+//	a = a << 2;
+//	a.printQInt(10);
 //
 //	return 0;
 //}
