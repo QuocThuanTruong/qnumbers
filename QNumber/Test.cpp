@@ -14,12 +14,9 @@
 //	a.printQFloat(10);
 //	a.printQFloat(2);*/
 //
-//	QInt a;
-//	a.scanQInt("1234", 10);
-//	a.printQInt(2);
-//
-//	a.ror(3);
-//	a.printQInt(2);
+//	QFloat a;
+//	a.scanQFloat("0.3", 10);
+//	a.printQFloat(2);
 //
 //	return 0;
 //}

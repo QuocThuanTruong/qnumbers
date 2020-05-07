@@ -236,6 +236,69 @@ string IntegerStringUtils::convertFractionPartToBin(string srcFrac)
 		count++;
 	}
 
+	if (count == BIT_IN_SIGNIFICAND)										// Nếu đã lấy được 112 bit và vẫn còn phần thừa phía sau thì ta lấy 3 số thừa kế tiếp để làm tròn
+	{																		// Làm tròn theo quy tắc làm tròn lên *Round to nearest, ties to even (default in floating point)
+		int numResidual = 3;												// VD: 11.5 -> 12, 12.5 -> 12 tương tự cho số âm
+		string residual = "";
+		bool isRoundUp = false;											
+
+		while (numResidual > 0)												// Lấy thêm 3 số thừa phía sau nếu có 
+		{
+			string newFrac = SUtils::mulOfPositiveIntegerAndTwo(srcFrac);	// Cách làm tương tự như việc lấy 112 bits
+
+			if (newFrac.size() > srcFrac.size())							
+			{
+				residual += '1';
+				srcFrac = newFrac.substr(1, srcFrac.size());
+			}
+			else
+			{
+				residual += '0';
+				srcFrac = newFrac;
+			}
+
+			numResidual--;
+		}
+
+		if (residual[1] != '0' || residual[2] != '0')						// Nếu phần tử thừa thứ 2 hoặc thứ 3 khác 0 -> Round to nearest	(làm tròn gần nhất)	
+		{
+			if (residual[0] == '0')											// Nếu phần tử thứ nhất = 0 -> Ta không làm tròn lên
+			{
+				isRoundUp = false;
+			}
+			else															// Làm tròn lên nếu phần tử thứ nhất = 1
+			{																// VD: Làm tròn 0.11|001 đến vị trí thứ 2 tính từ dấu . -> phần thừa 001 -> Kết quả làm tròn: 0.11
+				isRoundUp = true;											// VD: Làm tròn 0.11|101 đến vị trí thứ 2 tính từ dấu . -> phần thừa 101 -> Kết quả làm tròn: lấy 0.11 + 0.01 -> 1.00
+			}
+		}
+		else if (residual[1] == '0' && residual[2] == '0')					// Nếu phần tử thừa thứ 2 và 3 đều = 0 -> Tie to even (đưa về chẵn)
+		{
+			if (residual[0] == '0')											// Nếu phần tử thừa thứ nhất = 0 -> Nó đã là số chẵn (vì chuỗi thập phân kết thúc 0 là chẵn 1 là lẽ) -> Không làm tròn
+			{
+				isRoundUp = false;
+			}
+			else															// Nếu phần tử thứ nhất = 1 -> + 1 lên để đưa về số chẵn
+			{																// VD: Làm tròn 0.11|000 đến vị trí thứ 2 tính từ dấu . -> phần thừa 000 -> Kết quả làm tròn: 0.11
+				isRoundUp = true;											// VD: Làm tròn 0.01|100 đến vị trí thứ 2 tính từ dấu . -> phần thừa 100 -> Kết quả làm tròn: 0.01 + 0.01 -> 0.10
+			}
+		}
+
+		if (isRoundUp)
+		{
+			result = QInt::convertQIntToBin(QInt(result, 2) + QInt("1", 10)); // Làm tròn lên + 1
+
+			while (result.size() < BIT_IN_SIGNIFICAND)						// Thêm 0 vào đầu chuỗi vì chuyển QInt -> Bin sẽ mất số 0 ở đầu
+			{
+				result = '0' + result;
+			}
+
+			if (result.size() == BIT_IN_SIGNIFICAND + 1)					// Làm tròn tràn qua phần thập phân VD: 0.11|101 -> 1.00 
+			{
+				result.insert(result.begin() + 1, '.');						// Thêm dấu . để ngăn cách phần phân số với phần thập phân
+			}
+		}
+	}
+
 	return result;
 }
 

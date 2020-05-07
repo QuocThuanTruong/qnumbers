@@ -5,11 +5,11 @@
 #pragma warning(disable : 4996)
 
 /**
- *	Hàm processQInt - Hàm xử lý số QInt
+ *	Hàm executeQInt - Hàm xử lý số QInt
  *	@param	  string 		Chuỗi cần xử lý
  *	@return	  none
  */
-void processQInt(string srcQInt)
+void executeQInt(string srcQInt)
 {
 	string p1;
 	string p2;
@@ -186,11 +186,11 @@ void processQInt(string srcQInt)
 }
 
 /**
- *	Hàm processQFloat - Hàm xử lý số QFloat
+ *	Hàm executeQFloat - Hàm xử lý số QFloat
  *	@param	  string 		Chuỗi cần xử lý
  *	@return	  none
  */
-void processQFloat(string srcQFloat)
+void executeQFloat(string srcQFloat)
 {
 
 	string p1;
@@ -223,34 +223,41 @@ void processQFloat(string srcQFloat)
 
 int main(int argc, char* argv[])
 {
+	int type;
 	string inFile;
 	string outFile;
 
-	if (argc != 3)
+	if (argc != 4)
 	{
-		cout << "Syntax must be <*.exe> <input file> <output file>";
+		cout << "Syntax must be <program.exe> <input file> <output file> <type>";
 		return 0;
 	}
 	else
 	{
 		inFile = string(argv[1]);								// Lấy đường dẫn file in và out
 		outFile = string(argv[2]);
+		type = stoi(argv[3]);
 
 		freopen(inFile.c_str(), "r", stdin);					// Mở file thực hiện đọc ghi
 		freopen(outFile.c_str(), "w", stdout);
 
-		/*while (!cin.eof())									// Xử lí
+		if (type == 1)
 		{
-			string srcQInt;
-			getline(cin, srcQInt);
-			processQInt(srcQInt);
-		}*/
-
-		while (!cin.eof())									
+			while (!cin.eof())										// Xử lí theo loại 1: Số nguyên, 2 số thực
+			{
+				string srcQInt;
+				getline(cin, srcQInt);
+				executeQInt(srcQInt);
+			}
+		}
+		else if (type == 2)
 		{
-			string strIn;
-			getline(cin, strIn);
-			processQFloat(strIn);
+			while (!cin.eof())
+			{
+				string strIn;
+				getline(cin, strIn);
+				executeQFloat(strIn);
+			}
 		}
 
 		fcloseall();
