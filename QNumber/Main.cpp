@@ -54,7 +54,15 @@ void executeQInt(string srcQInt)
 
 		if (pos != string::npos)
 		{
-			if (srcQInt[pos - 1] == ' ' && srcQInt[pos + 1] == ' ')
+			if (bOperator[i] == "-")
+			{
+				if (srcQInt[pos - 1] == ' ' && srcQInt[pos + 1] == ' ')
+				{
+					operatorType = 2;
+					break;
+				}
+			}
+			else
 			{
 				operatorType = 2;
 				break;
