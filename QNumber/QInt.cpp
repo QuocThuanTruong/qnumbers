@@ -413,7 +413,7 @@ QInt QInt::operator/(const QInt& other)
  */
 bool QInt::operator>(const QInt& other)
 {
-	if (((*this) - other).isNegative())							//Trừ nhau ra dương thì return true
+	if (((*this) - other).isNegative() || ((*this) - other).equalZero())	//Trừ nhau ra dương thì return true
 	{
 		return false;
 	}
@@ -429,7 +429,7 @@ bool QInt::operator>(const QInt& other)
  */
 bool QInt::operator<(const QInt& other)
 {
-	if (((*this) - other).isNegative())							//Trừ nhau ra âm thì return true
+	if (((*this) - other).isNegative())										//Trừ nhau ra âm thì return true
 	{
 		return true;
 	}
@@ -445,7 +445,7 @@ bool QInt::operator<(const QInt& other)
  */
 bool QInt::operator==(const QInt& other)
 {
-	for( int i = 0; i < TOTAL_BLOCK; i++)						// So sánh lần lượt các block
+	for( int i = 0; i < TOTAL_BLOCK; i++)									// So sánh lần lượt các block
 	{
 		if (this->data[i] != other.data[i])
 		{
