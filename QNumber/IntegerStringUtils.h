@@ -13,6 +13,7 @@ public:
 	static string convertDecToBin(string src);
 	static string convertHexToBin(string src);
 	static string convertBinToHex(string src);
+	static string convertBinToDec(string src);
 
 	static string convertFractionPartToBin(string srcFrac);
 
