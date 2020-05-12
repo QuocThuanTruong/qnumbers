@@ -194,6 +194,26 @@ string IntegerStringUtils::convertBinToHex(string src)
 }
 
 /**
+ *	Hàm convertBinToDec - Hàm chuyển dổi chuỗi nhị phân sang thập phân
+ *	@param	 string		Chuỗi nhị phân cần chuyển
+ *	@return	 string		Chuỗi thập phân kết quả
+ */
+string IntegerStringUtils::convertBinToDec(string src)
+{
+	string result = "0";
+
+	for (int i = src.size() - 1; i >= 0; i--)			// Duyệt bit của src và chuyển về dạng thập phân theo công thức hệ cơ số q tổng quát
+	{
+		if (src[i] == '1')
+		{
+			result = SUtils::addTwoPositiveIntegerString(result, SUtils::powerOfTwo((src.size() - 1) - i));		// VD: 2^0 + 2^1 + 2^xxx...
+		}
+	}
+
+	return result;
+}
+
+/**
  *	Hàm convertFractionPartToBin - Hàm chuyển dổi phần thập phân của số thực sang nhị phân
  *	@param	 string		Phần chuỗi thập phân cần chuyển
  *	@return	 string		Chuỗi nhị phân kết quả
