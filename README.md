@@ -34,7 +34,7 @@ gấp 4 lần) độ lớn 128 bit có cấu trúc biểu diễn như sau:
 ![Bintray](https://img.shields.io/badge/3-Chương%20trình%20minh%20họa-blue)
 
 * Chương trình thực thi đọc tham số dòng lệnh ở dạng command line: 
-<MSSV1_MSSV2_MSSV3_MSSV4_MSSV5.exe> <input.txt> <output.txt><type>.
+<MSSV1_MSSV2_MSSV3_MSSV4_MSSV5.exe> <input.txt> <output.txt> <type>.
 
 ![Bintray](https://img.shields.io/badge/4-Quy%20định%20cấu%20trúc%20tập%20tin-blue)
 
